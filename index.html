@@ -12,6 +12,53 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:#EDF6FB;font-family:'DM Sans',Helvetica,sans-serif}
 button,input,textarea{font-family:inherit}
+
+/* Tab hover & active animations */
+.tab-btn{transition:background 0.2s, color 0.2s, transform 0.15s;}
+.tab-btn:hover{background:rgba(43,154,200,0.08)!important;}
+.tab-btn:active{transform:scale(0.93);}
+.tab-btn .tab-icon{transition:transform 0.2s;}
+.tab-btn:hover .tab-icon{transform:translateY(-2px) scale(1.15);}
+.tab-btn.active .tab-icon{transform:scale(1.1);}
+
+/* Accordion expand animation */
+@keyframes slideDown {
+  from{opacity:0;transform:translateY(-8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.detail-panel{animation:slideDown 0.22s ease;}
+
+/* Card hover */
+.tappable-row{transition:background 0.15s, border-color 0.15s;}
+.tappable-row:hover{filter:brightness(0.97);}
+.tappable-row:active{transform:scale(0.99);}
+
+/* Button press */
+.btn-orange{transition:background 0.15s, transform 0.1s, opacity 0.15s;}
+.btn-orange:hover{opacity:0.88;}
+.btn-orange:active{transform:scale(0.96);}
+
+/* Timeline circle */
+.tl-circle{transition:background 0.2s, transform 0.15s;}
+.tl-circle:hover{transform:scale(1.1);}
+
+/* Contact row */
+.contact-row{transition:background 0.15s, transform 0.1s;}
+.contact-row:hover{background:#F5FAFE!important;transform:translateX(2px);}
+
+/* Chevron rotate */
+.chevron{transition:transform 0.2s;}
+.chevron.open{transform:rotate(180deg);}
+
+/* Group card expand */
+@keyframes fadeIn {
+  from{opacity:0;}
+  to{opacity:1;}
+}
+.group-detail{animation:fadeIn 0.18s ease;}
+
+/* Scroll smooth */
+html{scroll-behavior:smooth;}
 </style>
 </head>
 <body>
@@ -665,7 +712,7 @@ function PDFBtn({label,pdfKey}) {
   const PDF_MAP = {PDF_AM70,PDF_AM6,PDF_CRUCERO,PDF_PARIS};
   const data = PDF_MAP[pdfKey];
   if (!data) return null;
-  return <button onClick={()=>openPDF(data,label)} style={{padding:"7px 12px",background:C.orange,border:"none",borderRadius:"8px",color:"#fff",fontSize:"11px",cursor:"pointer",fontWeight:600}}>{label}</button>;
+  return <button onClick={()=>openPDF(data,label)} className="btn-orange" style={{padding:"7px 12px",background:C.orange,border:"none",borderRadius:"8px",color:"#fff",fontSize:"11px",cursor:"pointer",fontWeight:600}}>{label}</button>;
 }
 function AirBlock({code,city,time,term,url,right}) {
   return <div style={{textAlign:right?"right":"left",minWidth:"76px"}}>
