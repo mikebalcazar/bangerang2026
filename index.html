@@ -296,8 +296,8 @@ function TabBar({tab, setTab}) {
   return (
     <div style={{display:"flex", background:C.card, borderBottom:`2px solid ${C.border}`, overflowX:"auto", boxShadow:"0 2px 8px rgba(43,154,200,0.08)"}}>
       {TABS.map((t,i)=>(
-        <button key={i} onClick={()=>setTab(i)} style={{flex:1,minWidth:"52px",padding:"11px 2px 9px",background:tab===i?C.blueLight:"none",border:"none",borderBottom:tab===i?`3px solid ${C.blue}`:"3px solid transparent",color:tab===i?C.blueText:C.textFaint,fontSize:"9px",letterSpacing:".5px",cursor:"pointer",fontFamily:"'Righteous',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",gap:"3px",transition:"all 0.15s"}}>
-          <span style={{fontSize:"14px"}}>{TABICONS[i]}</span>{t}
+        <button key={i} onClick={()=>setTab(i)} className={`tab-btn${tab===i?" active":""}`} style={{flex:1,minWidth:"52px",padding:"11px 2px 9px",background:tab===i?C.blueLight:"none",border:"none",borderBottom:tab===i?`3px solid ${C.blue}`:"3px solid transparent",color:tab===i?C.blueText:C.textFaint,fontSize:"9px",letterSpacing:".5px",cursor:"pointer",fontFamily:"'Righteous',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",gap:"3px"}}>
+          <span className="tab-icon" style={{fontSize:"14px",display:"block"}}>{TABICONS[i]}</span>{t}
         </button>
       ))}
     </div>
@@ -559,7 +559,7 @@ function CronogramaTab() {
                 </div>
                 <span style={{fontSize:"12px",color:isOpen?C.blue:C.textFaint,marginLeft:"8px"}}>{isOpen?"▲":"›"}</span>
               </div>
-              {isOpen&&<DetailPanel item={item} idx={i}/>}
+              {isOpen&&<div className="detail-panel"><DetailPanel item={item} idx={i}/></div>}
             </div>
           </div>
         );
@@ -687,7 +687,7 @@ function TBadge({label,date,color,bg}) {
   </div>;
 }
 function ContactRow({c}) {
-  return <a href={c.href} style={{display:"flex",alignItems:"center",gap:"8px",padding:"8px 10px",background:C.card,border:`1px solid ${C.border}`,borderRadius:"8px",marginBottom:"6px",textDecoration:"none"}}>
+  return <a href={c.href} className="contact-row" style={{display:"flex",alignItems:"center",gap:"8px",padding:"8px 10px",background:C.card,border:`1px solid ${C.border}`,borderRadius:"8px",marginBottom:"6px",textDecoration:"none"}}>
     <span style={{fontSize:"16px"}}>{c.icon}</span>
     <div style={{flex:1}}><div style={{fontSize:"10px",color:C.textFaint}}>{c.label}</div><div style={{fontSize:"12px",color:C.orange,fontWeight:600}}>{c.value}</div></div>
     <span style={{fontSize:"14px",color:C.textFaint}}>›</span>
@@ -713,7 +713,7 @@ function AirBlock({code,city,time,term,url,right}) {
 }
 function GroupCard({act,open,onToggle}) {
   return <div style={{marginBottom:"10px"}}>
-    <div onClick={onToggle} style={{background:open?C.blueLight:C.card,border:`1.5px solid ${open?C.blue:C.border}`,borderRadius:open?"10px 10px 0 0":"10px",padding:"12px 14px",cursor:"pointer",display:"flex",alignItems:"center",gap:"12px"}}>
+    <div onClick={onToggle} className="tappable-row" style={{background:open?C.blueLight:C.card,border:`1.5px solid ${open?C.blue:C.border}`,borderRadius:open?"10px 10px 0 0":"10px",padding:"12px 14px",cursor:"pointer",display:"flex",alignItems:"center",gap:"12px"}}>
       <span style={{fontSize:"20px"}}>{act.icon}</span>
       <div style={{flex:1}}>
         <div style={{fontSize:"13px",fontWeight:600,color:open?C.blueText:C.text}}>{act.title}</div>
@@ -721,7 +721,7 @@ function GroupCard({act,open,onToggle}) {
       </div>
       <span style={{fontSize:"12px",color:open?C.blue:C.textFaint}}>{open?"▲":"›"}</span>
     </div>
-    {open&&<div style={{background:C.bg2,border:`1.5px solid ${C.blue}`,borderTop:"none",borderRadius:"0 0 10px 10px",padding:"12px"}}>
+    {open&&<div className="group-detail" style={{background:C.bg2,border:`1.5px solid ${C.blue}`,borderTop:"none",borderRadius:"0 0 10px 10px",padding:"12px"}}>
       <div style={{marginBottom:"8px",display:"flex",gap:"8px"}}>
         <div style={{flex:1,background:C.blueLight,borderRadius:"8px",padding:"8px",borderTop:`2px solid ${C.blue}`}}>
           <div style={{fontSize:"9px",color:C.blue,marginBottom:"2px"}}>ESTADO</div>
