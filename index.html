@@ -59,9 +59,62 @@ button,input,textarea{font-family:inherit}
 
 /* Scroll smooth */
 html{scroll-behavior:smooth;}
+
+/* PIN Screen */
+#pin-screen{position:fixed;inset:0;background:linear-gradient(135deg,#E8961A 0%,#E8961A 50%,#2B9AC8 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.4s;}
+#pin-screen.hidden{opacity:0;pointer-events:none;}
+.pin-logo{font-family:'Bebas Neue',sans-serif;font-size:72px;color:transparent;-webkit-text-stroke:2.5px rgba(255,255,255,0.9);letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+.pin-sub{font-family:'Righteous',sans-serif;font-size:13px;letter-spacing:3px;color:rgba(255,255,255,0.8);margin-bottom:40px;}
+.pin-dots{display:flex;gap:16px;margin-bottom:32px;}
+.pin-dot{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,0.7);background:transparent;transition:background 0.15s,transform 0.15s;}
+.pin-dot.filled{background:#fff;transform:scale(1.1);}
+.pin-dot.error{border-color:#FF6B6B;background:#FF6B6B;animation:shake 0.3s ease;}
+.pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:220px;}
+.pin-key{height:60px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);color:#fff;font-size:22px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;transition:background 0.15s,transform 0.1s;-webkit-tap-highlight-color:transparent;}
+.pin-key:hover{background:rgba(255,255,255,0.25);}
+.pin-key:active{background:rgba(255,255,255,0.35);transform:scale(0.93);}
+.pin-key.del{font-size:18px;}
+.pin-error{color:rgba(255,100,100,0.9);font-size:12px;font-family:'DM Sans',sans-serif;margin-top:-20px;margin-bottom:16px;height:16px;transition:opacity 0.2s;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 </style>
 </head>
 <body>
+<div id="pin-screen">
+  <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px;">
+    <div style="position:relative;line-height:1">
+      <div class="pin-logo" style="-webkit-text-stroke:2px rgba(255,255,255,0.15);position:absolute;top:10px;left:10px">40</div>
+      <div class="pin-logo" style="-webkit-text-stroke:2px rgba(255,255,255,0.3);position:absolute;top:5px;left:5px">40</div>
+      <div class="pin-logo">40</div>
+    </div>
+    <div style="padding-top:8px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.9);letter-spacing:4px;line-height:1.1">BAN</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.9);letter-spacing:4px;line-height:1.1">GER</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.9);letter-spacing:4px;line-height:1.1">ANG</div>
+    </div>
+  </div>
+  <div class="pin-sub">EUROPA 2026</div>
+  <div class="pin-dots" id="pin-dots">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="pin-error" id="pin-error"></div>
+  <div class="pin-keypad">
+    <button class="pin-key" onclick="pinKey('1')">1</button>
+    <button class="pin-key" onclick="pinKey('2')">2</button>
+    <button class="pin-key" onclick="pinKey('3')">3</button>
+    <button class="pin-key" onclick="pinKey('4')">4</button>
+    <button class="pin-key" onclick="pinKey('5')">5</button>
+    <button class="pin-key" onclick="pinKey('6')">6</button>
+    <button class="pin-key" onclick="pinKey('7')">7</button>
+    <button class="pin-key" onclick="pinKey('8')">8</button>
+    <button class="pin-key" onclick="pinKey('9')">9</button>
+    <button class="pin-key" style="visibility:hidden"></button>
+    <button class="pin-key" onclick="pinKey('0')">0</button>
+    <button class="pin-key del" onclick="pinDel()">⌫</button>
+  </div>
+</div>
 <div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#9ABAC8;flex-direction:column;gap:12px"><div style="font-size:32px">🚢</div><div>Cargando 40 Bangerang...</div></div></div>
 <script>
 // PDF Data (outside Babel)
@@ -83,6 +136,72 @@ function lsDelete(key) {
   try { localStorage.removeItem(key); return true; } catch(e) { return false; }
 }
 
+</script>
+<script>
+const CORRECT_PIN = "1927";
+const SESSION_KEY = "bg2026_auth";
+let pinEntry = "";
+
+// Check if already authenticated
+(function(){
+  try {
+    const auth = localStorage.getItem(SESSION_KEY);
+    if (auth === CORRECT_PIN) {
+      document.getElementById("pin-screen").style.display = "none";
+    }
+  } catch(e) {}
+})();
+
+function updateDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById("d" + i);
+    dot.classList.toggle("filled", i < pinEntry.length);
+    dot.classList.remove("error");
+  }
+}
+
+function pinKey(digit) {
+  if (pinEntry.length >= 4) return;
+  pinEntry += digit;
+  updateDots();
+  if (pinEntry.length === 4) {
+    setTimeout(checkPin, 120);
+  }
+}
+
+function pinDel() {
+  if (pinEntry.length === 0) return;
+  pinEntry = pinEntry.slice(0, -1);
+  updateDots();
+  document.getElementById("pin-error").textContent = "";
+}
+
+function checkPin() {
+  if (pinEntry === CORRECT_PIN) {
+    try { localStorage.setItem(SESSION_KEY, CORRECT_PIN); } catch(e) {}
+    const screen = document.getElementById("pin-screen");
+    screen.classList.add("hidden");
+    setTimeout(() => screen.style.display = "none", 400);
+  } else {
+    // Wrong PIN
+    for (let i = 0; i < 4; i++) {
+      document.getElementById("d" + i).classList.add("error");
+    }
+    document.getElementById("pin-error").textContent = "PIN incorrecto";
+    setTimeout(() => {
+      pinEntry = "";
+      updateDots();
+      document.getElementById("pin-error").textContent = "";
+    }, 900);
+  }
+}
+
+// Keyboard support
+document.addEventListener("keydown", function(e) {
+  if (document.getElementById("pin-screen").style.display === "none") return;
+  if (e.key >= "0" && e.key <= "9") pinKey(e.key);
+  if (e.key === "Backspace") pinDel();
+});
 </script>
 <script type="text/babel">
 // Destructure React hooks
