@@ -228,22 +228,10 @@ const TIMELINE = [
   {date:"4 Jun",icon:"🏠",label:"Llegada Ciudad de México",sub:"18:55 · Terminal 2 · AICM",type:"arrival",detail:{rows:[{l:"Terminal",v:"T2 · AICM"},{l:"Hora",v:"18:55 hrs"}],links:[{label:"📍 T2 AICM",url:"https://www.google.com/maps/search/?api=1&query=Aeropuerto+CDMX+Terminal+2"}]}},
 ];
 
-const DEFAULT_TODOS = [
-  {text:"Confirmar transfer vans a Civitavecchia",done:false},
-  {text:"Comprar disfraces Decades Night en Roma",done:false},
-  {text:"Confirmar restaurante en París",done:false},
-  {text:"Llevar voucher Museos Vaticanos (impreso o celular)",done:false},
-  {text:"Check-in online Calamatta Relais (wubook)",done:false},
-  {text:"Descargar app Royal Caribbean antes de embarcar",done:false},
-  {text:"Pagar City Tax Hidden Hotel París al llegar (€67.60)",done:false},
-  {text:"Confirmar paquete de bebidas en crucero",done:false},
-  {text:"Llevar SPF 50+ para islas griegas",done:false},
-  {text:"Guayaberas/Talavera para Noche Mexicana en crucero",done:false},
-];
 
 const TYPE_COLOR = {flight:C.orange,arrival:C.green,hotel:C.blue,stay:"#9060C0",cruise:"#1A8080",port:C.orange,checkout:C.red,pending:C.textFaint};
-const TABS = ["HOME","VUELOS","HOTELES","CRUCERO","GRUPO","SCHED","TODO"];
-const TABICONS = ["🏠","✈️","🏨","🚢","👥","📅","✅"];
+const TABS = ["HOME","VUELOS","HOTELES","CRUCERO","GRUPO","SCHED"];
+const TABICONS = ["🏠","✈️","🏨","🚢","👥","📅"];
 
 // ── APP ───────────────────────────────────────────────────────────────────────
 function App() {
