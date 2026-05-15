@@ -1199,7 +1199,19 @@ function DayNotes({dayIndex}){
 
 // ── MAIN APP ──────────────────────────────────────────────────────────────────
 function App() {
-  const [couple, setCouple] = useState(null);
+  // Load saved couple SYNCHRONOUSLY to avoid flash of selector screen
+  const [couple, setCouple] = useState(() => {
+    try {
+      const saved = localStorage.getItem("bg_couple");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Re-sync from latest COUPLES data in case nicknames or admin flag changed
+        const fresh = COUPLES.find(c => c.id === parsed.id);
+        return fresh || parsed;
+      }
+    } catch(e) {}
+    return null;
+  });
   const [rsvps, setRsvps] = useState({});
   const esRef = useRef(null);
 
@@ -1209,12 +1221,6 @@ function App() {
     l.rel = "stylesheet";
     l.href = "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&family=DM+Sans:wght@400;500;600&display=swap";
     document.head.appendChild(l);
-
-    // Load saved couple
-    try {
-      const saved = localStorage.getItem("bg_couple");
-      if (saved) setCouple(JSON.parse(saved));
-    } catch(e) {}
 
     // Firebase SSE
     const connect = () => {
