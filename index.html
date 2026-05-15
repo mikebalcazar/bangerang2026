@@ -11,25 +11,23 @@
 <style>*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:#0F1E2C;font-family:'DM Sans',Helvetica,sans-serif}
 button,input,textarea{font-family:inherit}
-@keyframes cardEntrance{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes cardSelect{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes cardEntrance{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardSelect{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
 @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.ccard{animation:cardEntrance 0.4s ease both}
-.ccard:nth-child(1){animation-delay:.05s}.ccard:nth-child(2){animation-delay:.10s}
-.ccard:nth-child(3){animation-delay:.15s}.ccard:nth-child(4){animation-delay:.20s}
-.ccard:nth-child(5){animation-delay:.25s}.ccard:nth-child(6){animation-delay:.30s}
-.ccard:nth-child(7){animation-delay:.35s}.ccard:nth-child(8){animation-delay:.40s}
-.ccard:nth-child(9){animation-delay:.45s}
-.ccard:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.35)!important}
-.ccard-sel{animation:cardSelect 0.35s ease!important}
-.tab-btn{transition:background 0.2s,color 0.2s,transform 0.15s}
-.tab-btn:hover{background:rgba(43,154,200,0.08)!important}
+.ccard{animation:cardEntrance 0.35s ease both}
+.ccard:nth-child(1){animation-delay:.04s}.ccard:nth-child(2){animation-delay:.08s}
+.ccard:nth-child(3){animation-delay:.12s}.ccard:nth-child(4){animation-delay:.16s}
+.ccard:nth-child(5){animation-delay:.20s}.ccard:nth-child(6){animation-delay:.24s}
+.ccard:nth-child(7){animation-delay:.28s}.ccard:nth-child(8){animation-delay:.32s}
+.ccard:nth-child(9){animation-delay:.36s}
+.ccard:hover{transform:translateY(-3px)!important;box-shadow:0 8px 24px rgba(0,0,0,0.4)!important}
+.ccard-sel{animation:cardSelect 0.3s ease!important}
+.tab-btn{transition:background 0.2s,color 0.2s}
 .tab-btn:active{transform:scale(0.93)}
 .tab-btn .tab-icon{transition:transform 0.2s}
 .tab-btn:hover .tab-icon{transform:translateY(-2px) scale(1.15)}
-.tab-btn.active .tab-icon{transform:scale(1.1)}
-.detail-panel{animation:slideDown 0.22s ease}
+.detail-panel{animation:slideDown 0.2s ease}
 .group-detail{animation:fadeIn 0.18s ease}
 .tappable-row{transition:background 0.15s,border-color 0.15s;cursor:pointer}
 .tappable-row:active{transform:scale(0.99)}
@@ -38,9 +36,10 @@ button,input,textarea{font-family:inherit}
 .contact-row{transition:background 0.15s,transform 0.1s}
 .contact-row:hover{transform:translateX(2px)}
 .btn-orange{transition:opacity 0.15s,transform 0.1s}
-.btn-orange:hover{opacity:0.88}
 .btn-orange:active{transform:scale(0.96)}
-html{scroll-behavior:smooth}</style>
+html{scroll-behavior:smooth}
+input::placeholder{color:rgba(255,255,255,0.3)}
+input:focus{border-color:rgba(232,150,26,0.5)!important;outline:none}</style>
 </head>
 <body>
 <div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:12px;color:rgba(255,255,255,0.5)"><div style="font-size:48px;font-weight:900;letter-spacing:-2px;color:rgba(232,150,26,0.7)">40</div><div style="font-size:13px;letter-spacing:3px">BANGERANG · CARGANDO...</div></div></div>
@@ -159,49 +158,184 @@ function openPDF(data, name) {
   if (w) w.document.write(`<html><head><title>${name}</title></head><body style="margin:0"><iframe src="${data}" style="width:100%;height:100vh;border:none"></iframe></body></html>`);
 }
 
+// ── CHAT ──────────────────────────────────────────────────────────────────────
+function GroupChat({ myNick }) {
+  const [msgs, setMsgs] = useState([]);
+  const [text, setText] = useState("");
+  const [sending, setSending] = useState(false);
+  const bottomRef = useRef(null);
+  const esRef = useRef(null);
+
+  useEffect(() => {
+    const connect = () => {
+      try {
+        const es = new EventSource(`${FB}/chat.json`);
+        esRef.current = es;
+        es.addEventListener("put", (e) => {
+          try {
+            const { data } = JSON.parse(e.data);
+            if (data) {
+              const list = Object.entries(data)
+                .map(([k,v]) => ({key:k,...v}))
+                .sort((a,b) => a.ts - b.ts)
+                .slice(-60);
+              setMsgs(list);
+            } else {
+              setMsgs([]);
+            }
+          } catch(e2) {}
+        });
+        es.addEventListener("patch", (e) => {
+          try {
+            const { data } = JSON.parse(e.data);
+            if (data) {
+              setMsgs(prev => {
+                const map = {};
+                prev.forEach(m => { map[m.key] = m; });
+                Object.entries(data).forEach(([k,v]) => { map[k] = {key:k,...v}; });
+                return Object.values(map).sort((a,b)=>a.ts-b.ts).slice(-60);
+              });
+            }
+          } catch(e2) {}
+        });
+        es.onerror = () => { es.close(); setTimeout(connect, 5000); };
+      } catch(e) {}
+    };
+    connect();
+    return () => { if (esRef.current) esRef.current.close(); };
+  }, []);
+
+  useEffect(() => {
+    if (bottomRef.current) bottomRef.current.scrollIntoView({ behavior:"smooth" });
+  }, [msgs]);
+
+  const send = async () => {
+    const t = text.trim();
+    if (!t || !myNick || sending) return;
+    setSending(true);
+    setText("");
+    try {
+      await fetch(`${FB}/chat.json`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ nick: myNick, text: t, ts: Date.now() })
+      });
+    } catch(e) {}
+    setSending(false);
+  };
+
+  const NICK_COLORS = ["#E8961A","#2B9AC8","#2D8A55","#9060C0","#C04040","#1A8080","#C06090","#6060C0","#A06020"];
+  const nickColor = (nick) => {
+    const idx = COUPLES.findIndex(c => c.nick === nick);
+    return NICK_COLORS[idx % NICK_COLORS.length] || C.orange;
+  };
+
+  return (
+    <div style={{background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:"16px", overflow:"hidden", width:"100%", maxWidth:"420px"}}>
+      <div style={{padding:"10px 14px 8px", borderBottom:"1px solid rgba(255,255,255,0.08)", display:"flex", alignItems:"center", gap:"8px"}}>
+        <span style={{fontSize:"14px"}}>💬</span>
+        <span style={{fontFamily:"'Righteous',sans-serif", fontSize:"12px", letterSpacing:"2px", color:"rgba(255,255,255,0.7)"}}>CHAT DEL GRUPO</span>
+        <span style={{marginLeft:"auto", fontSize:"9px", color:"rgba(255,255,255,0.3)"}}>{msgs.length} mensajes</span>
+      </div>
+      <div style={{height:"220px", overflowY:"auto", padding:"10px 12px", display:"flex", flexDirection:"column", gap:"6px"}}>
+        {msgs.length === 0 && (
+          <div style={{textAlign:"center", padding:"30px 0", color:"rgba(255,255,255,0.25)", fontSize:"12px"}}>Sé el primero en escribir 👋</div>
+        )}
+        {msgs.map((m, i) => {
+          const isMe = m.nick === myNick;
+          return (
+            <div key={m.key || i} style={{display:"flex", flexDirection:"column", alignItems: isMe ? "flex-end" : "flex-start"}}>
+              {(!isMe || i === 0 || msgs[i-1]?.nick !== m.nick) && (
+                <span style={{fontSize:"9px", color: nickColor(m.nick), fontWeight:700, marginBottom:"2px", marginLeft: isMe ? 0 : "4px", marginRight: isMe ? "4px" : 0}}>{m.nick}</span>
+              )}
+              <div style={{maxWidth:"78%", padding:"7px 11px", borderRadius: isMe ? "14px 14px 4px 14px" : "14px 14px 14px 4px", background: isMe ? C.orange : "rgba(255,255,255,0.1)", color: isMe ? "#fff" : "rgba(255,255,255,0.9)", fontSize:"13px", lineHeight:1.4, wordBreak:"break-word"}}>
+                {m.text}
+              </div>
+              <span style={{fontSize:"8px", color:"rgba(255,255,255,0.2)", marginTop:"2px", marginLeft: isMe ? 0 : "4px", marginRight: isMe ? "4px" : 0}}>
+                {new Date(m.ts).toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"})}
+              </span>
+            </div>
+          );
+        })}
+        <div ref={bottomRef}/>
+      </div>
+      <div style={{padding:"8px 10px", borderTop:"1px solid rgba(255,255,255,0.08)", display:"flex", gap:"8px", alignItems:"center"}}>
+        <input
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && send()}
+          placeholder={myNick ? `Escribe como ${myNick}...` : "Selecciona tu pareja para escribir"}
+          disabled={!myNick}
+          style={{flex:1, background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.12)", borderRadius:"20px", padding:"9px 14px", color:"#fff", fontSize:"13px", outline:"none"}}
+        />
+        <button onClick={send} disabled={!myNick || !text.trim() || sending}
+          style={{width:"36px", height:"36px", borderRadius:"50%", background: myNick && text.trim() ? C.orange : "rgba(255,255,255,0.1)", border:"none", color:"#fff", fontSize:"16px", cursor: myNick && text.trim() ? "pointer" : "default", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", transition:"background 0.2s"}}>
+          ›
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ── COUPLE SELECTOR ───────────────────────────────────────────────────────────
 function CoupleSelector({ onSelect }) {
   const [selected, setSelected] = useState(null);
   const [exiting, setExiting] = useState(false);
 
-  const pick = (c) => {
-    if (selected !== null) return;
-    setSelected(c.id);
-    setTimeout(() => { setExiting(true); setTimeout(() => onSelect(c), 400); }, 300);
+  const pick = (c) => { setSelected(c.id); };
+  const enter = () => {
+    const c = COUPLES.find(x => x.id === selected);
+    if (!c) return;
+    setExiting(true);
+    setTimeout(() => onSelect(c), 350);
   };
 
+  const selCouple = COUPLES.find(c => c.id === selected);
+
   return (
-    <div style={{minHeight:"100vh", background:"linear-gradient(160deg,#1A2A3A 0%,#0F1E2C 40%,#1A3A2A 100%)", display:"flex", flexDirection:"column", alignItems:"center", padding:"30px 16px 24px", opacity:exiting?0:1, transition:"opacity 0.4s"}}>
+    <div style={{minHeight:"100vh", background:"linear-gradient(160deg,#1A2A3A 0%,#0F1E2C 40%,#1A3A2A 100%)", display:"flex", flexDirection:"column", alignItems:"center", padding:"28px 14px 32px", opacity:exiting?0:1, transition:"opacity 0.35s"}}>
       {/* Logo */}
-      <div style={{textAlign:"center", marginBottom:"28px"}}>
-        <div style={{display:"flex", alignItems:"flex-start", justifyContent:"center", gap:"10px", marginBottom:"6px"}}>
-          <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"72px", color:"transparent", WebkitTextStroke:"2.5px rgba(232,150,26,0.9)", letterSpacing:"-2px", lineHeight:1}}>40</div>
-          <div style={{paddingTop:"8px"}}>
-            {["BAN","GER","ANG"].map(w => <div key={w} style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"22px", color:"transparent", WebkitTextStroke:"1.5px rgba(255,255,255,0.85)", letterSpacing:"4px", lineHeight:1.15}}>{w}</div>)}
+      <div style={{textAlign:"center", marginBottom:"20px"}}>
+        <div style={{display:"flex", alignItems:"flex-start", justifyContent:"center", gap:"8px", marginBottom:"4px"}}>
+          <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"60px", color:"transparent", WebkitTextStroke:"2px rgba(232,150,26,0.9)", letterSpacing:"-2px", lineHeight:1}}>40</div>
+          <div style={{paddingTop:"6px"}}>
+            {["BAN","GER","ANG"].map(w => <div key={w} style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"19px", color:"transparent", WebkitTextStroke:"1.2px rgba(255,255,255,0.85)", letterSpacing:"4px", lineHeight:1.15}}>{w}</div>)}
           </div>
         </div>
-        <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"11px", letterSpacing:"4px", color:"rgba(255,255,255,0.5)"}}>EUROPA 2026 · ODYSSEY OF THE SEAS</div>
+        <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"10px", letterSpacing:"4px", color:"rgba(255,255,255,0.45)"}}>EUROPA 2026 · ODYSSEY OF THE SEAS</div>
       </div>
 
-      <div style={{fontSize:"14px", color:"rgba(255,255,255,0.6)", marginBottom:"20px", letterSpacing:"1px"}}>¿Quiénes son ustedes?</div>
+      <div style={{fontSize:"11px", color:"rgba(255,255,255,0.5)", marginBottom:"12px", letterSpacing:"1px", textTransform:"uppercase"}}>¿Quiénes son?</div>
 
-      {/* Couple grid */}
-      <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:"10px", width:"100%", maxWidth:"420px"}}>
+      {/* Compact 3-col grid */}
+      <div style={{display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:"7px", width:"100%", maxWidth:"420px", marginBottom:"14px"}}>
         {COUPLES.map((c, i) => {
           const isSel = selected === c.id;
           return (
             <div key={c.id} className={`ccard ${isSel ? "ccard-sel" : ""}`}
-              style={{animationDelay:`${i * 0.05}s`, background: isSel ? "linear-gradient(135deg,#FEF0D6,#E0F2FA)" : "rgba(255,255,255,0.07)", border:`1.5px solid ${isSel ? C.orange : "rgba(255,255,255,0.12)"}`, borderRadius:"14px", padding:"13px 11px", cursor:"pointer", backdropFilter:"blur(4px)", transition:"all 0.2s"}}
+              style={{animationDelay:`${i * 0.05}s`, background: isSel ? "linear-gradient(135deg,#E8961A,#2B9AC8)" : "rgba(255,255,255,0.07)", border:`1.5px solid ${isSel ? C.orange : "rgba(255,255,255,0.1)"}`, borderRadius:"10px", padding:"9px 8px", cursor:"pointer", transition:"all 0.2s", textAlign:"center"}}
               onClick={() => pick(c)}>
-              <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"28px", color: isSel ? C.orange : "rgba(255,255,255,0.25)", lineHeight:1, marginBottom:"6px"}}>{String(c.id+1).padStart(2,"0")}</div>
-              <div style={{fontSize:"12px", fontWeight:600, color: isSel ? C.orangeText : "#fff", lineHeight:1.3, marginBottom:"2px"}}>{c.p1}</div>
-              <div style={{fontSize:"11px", color: isSel ? C.orangeText : "rgba(255,255,255,0.6)", lineHeight:1.3, marginBottom:"8px"}}>{c.p2}</div>
-              <div style={{fontSize:"9px", color: isSel ? C.blue : "rgba(255,255,255,0.3)", textTransform:"uppercase", letterSpacing:"0.5px"}}>{c.cabin}</div>
+              <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"12px", fontWeight:700, color: isSel ? "#fff" : "rgba(255,255,255,0.85)", lineHeight:1.3, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis"}}>
+                {c.nick}
+              </div>
             </div>
           );
         })}
       </div>
-      <div style={{marginTop:"20px", fontSize:"10px", color:"rgba(255,255,255,0.3)"}}>🔒 Solo para el grupo 40 Bangerang</div>
+
+      {/* Enter button */}
+      <div style={{height:"44px", marginBottom:"20px", width:"100%", maxWidth:"420px", display:"flex", justifyContent:"center"}}>
+        {selCouple && (
+          <button onClick={enter}
+            style={{padding:"11px 32px", background:`linear-gradient(135deg,${C.orange},${C.blue})`, border:"none", borderRadius:"22px", color:"#fff", fontFamily:"'Righteous',sans-serif", fontSize:"14px", letterSpacing:"1px", cursor:"pointer", boxShadow:"0 4px 20px rgba(232,150,26,0.4)", animation:"fadeIn 0.2s ease"}}>
+            Entrar como {selCouple.nick} →
+          </button>
+        )}
+      </div>
+
+      {/* Group chat */}
+      <GroupChat myNick={selCouple?.nick || null} />
+      <div style={{marginTop:"14px", fontSize:"9px", color:"rgba(255,255,255,0.2)"}}>🔒 Solo para el grupo 40 Bangerang</div>
     </div>
   );
 }
@@ -281,12 +415,12 @@ function ActivityCard({ act, coupleId, rsvps, onRSVP }) {
           <div style={{display:"flex", flexWrap:"wrap", gap:"5px"}}>
             {confirmedList.map(c => (
               <span key={c.id} style={{fontSize:"10px", padding:"3px 8px", background:C.greenBg, color:C.green, borderRadius:"20px", border:`1px solid ${C.green}40`, fontWeight:600}}>
-                {c.p1.split(" ")[0]} & {c.p2.split(" ")[0]}
+                {c.nick}
               </span>
             ))}
             {rsvpdList.map(c => (
               <span key={c.id} style={{fontSize:"10px", padding:"3px 8px", background:C.orangeLight, color:C.orangeText, borderRadius:"20px", border:`1px solid ${C.orangeMid}`, fontWeight:600}}>
-                {c.p1.split(" ")[0]} & {c.p2.split(" ")[0]}
+                {c.nick}
               </span>
             ))}
           </div>
@@ -324,7 +458,7 @@ function GuestApp({ couple, rsvps, onRSVP, onSwitch }) {
         <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
           <div>
             <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"11px", letterSpacing:"3px", color:"rgba(255,255,255,0.7)"}}>40 BANGERANG · EUROPA 2026</div>
-            <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"18px", color:"#fff"}}>{couple.p1} & {couple.p2}</div>
+            <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"18px", color:"#fff"}}>{couple.nick}</div>
             <div style={{fontSize:"10px", color:"rgba(255,255,255,0.7)"}}>🚢 Odyssey of the Seas · Camarote {couple.cabin}</div>
           </div>
           <button onClick={onSwitch} style={{background:"rgba(255,255,255,0.15)", border:"1px solid rgba(255,255,255,0.3)", borderRadius:"8px", color:"#fff", fontSize:"10px", padding:"6px 10px", cursor:"pointer"}}>Cambiar →</button>
@@ -443,7 +577,7 @@ function GrupoTab() {
           <div key={c.id} style={{display:"flex", alignItems:"center", gap:"10px", padding:"11px 14px", borderBottom:i<COUPLES.length-1?`1px solid ${C.borderLight}`:"none", background:c.admin?(C.blueLight):(i%2===0?C.card:C.bg)}}>
             <div style={{width:"24px", height:"24px", borderRadius:"50%", background:c.admin?C.blue:C.border, display:"flex", alignItems:"center", justifyContent:"center", fontSize:"11px", fontWeight:"bold", color:c.admin?"#fff":C.textDim, flexShrink:0}}>{c.id+1}</div>
             <div style={{flex:1}}>
-              <div style={{fontSize:"12px", fontWeight:c.admin?700:500, color:c.admin?C.blueText:C.text}}>{c.p1} + {c.p2}</div>
+              <div style={{fontSize:"12px", fontWeight:c.admin?700:500, color:c.admin?C.blueText:C.text}}>{c.nick}</div>
               <div style={{fontSize:"10px", color:C.textFaint}}>{c.cabin}</div>
             </div>
           </div>
@@ -712,7 +846,7 @@ function GrupoTabAdmin() {
         <div key={i} style={{display:"flex",alignItems:"center",gap:"10px",padding:"10px 13px",borderBottom:i<COUPLES.length-1?`1px solid ${C.borderLight}`:"none",background:c.admin?C.blueLight:i%2===0?C.card:C.bg}}>
           <div style={{width:"22px",height:"22px",borderRadius:"50%",background:c.admin?C.blue:C.border,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"10px",fontWeight:"bold",color:c.admin?"#fff":C.textDim,flexShrink:0}}>{c.id+1}</div>
           <div style={{flex:1}}>
-            <div style={{fontSize:"12px",fontWeight:c.admin?700:500,color:c.admin?C.blueText:C.text}}>{c.p1} + {c.p2}</div>
+            <div style={{fontSize:"12px",fontWeight:c.admin?700:500,color:c.admin?C.blueText:C.text}}>{c.nick}</div>
             <div style={{fontSize:"10px",color:C.textFaint}}>{c.cabin}</div>
           </div>
         </div>
