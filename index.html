@@ -23,20 +23,16 @@ button,input,textarea{font-family:inherit}
 .ccard:nth-child(9){animation-delay:.36s}
 .ccard:hover{transform:translateY(-3px)!important;box-shadow:0 8px 24px rgba(0,0,0,0.4)!important}
 .ccard-sel{animation:cardSelect 0.3s ease!important}
-.tab-btn{transition:background 0.2s,color 0.2s}
-.tab-btn:active{transform:scale(0.93)}
+.tab-btn{transition:background 0.2s,color 0.2s}.tab-btn:active{transform:scale(0.93)}
 .tab-btn .tab-icon{transition:transform 0.2s}
 .tab-btn:hover .tab-icon{transform:translateY(-2px) scale(1.15)}
 .detail-panel{animation:slideDown 0.2s ease}
 .group-detail{animation:fadeIn 0.18s ease}
 .tappable-row{transition:background 0.15s,border-color 0.15s;cursor:pointer}
 .tappable-row:active{transform:scale(0.99)}
-.tl-circle{transition:background 0.2s,transform 0.15s}
-.tl-circle:hover{transform:scale(1.1)}
-.contact-row{transition:background 0.15s,transform 0.1s}
-.contact-row:hover{transform:translateX(2px)}
-.btn-orange{transition:opacity 0.15s,transform 0.1s}
-.btn-orange:active{transform:scale(0.96)}
+.tl-circle{transition:background 0.2s,transform 0.15s}.tl-circle:hover{transform:scale(1.1)}
+.contact-row{transition:background 0.15s,transform 0.1s}.contact-row:hover{transform:translateX(2px)}
+.btn-orange{transition:opacity 0.15s,transform 0.1s}.btn-orange:active{transform:scale(0.96)}
 html{scroll-behavior:smooth}
 input::placeholder{color:rgba(255,255,255,0.3)}
 input:focus{border-color:rgba(232,150,26,0.5)!important;outline:none}</style>
@@ -71,15 +67,15 @@ const C = {
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const COUPLES = [
-  { id:0,  p1:"Francisco Vidal",    p2:"Cristina Guzmán",   cabin:"Balcón Vista Mar",  res:"748375"  },
-  { id:1,  p1:"Juan del Cerro",     p2:"Cynthia García",    cabin:"Balcón Vista Mar",  res:"8992600" },
-  { id:2,  p1:"Miguel Balcázar",    p2:"Begoña Ramírez",    cabin:"Interior 12211",    res:"5222981", admin:true },
-  { id:3,  p1:"Fco. Vizcaya",       p2:"Mariana Orozco",    cabin:"Balcón Vista Mar",  res:"8766201" },
-  { id:4,  p1:"Luis Márquez",       p2:"Natalia Morera",    cabin:"Balcón Vista Mar",  res:"5623520" },
-  { id:5,  p1:"Alejandro Molina",   p2:"Gabriela Arta",     cabin:"Balcón Vista Mar",  res:"9072339" },
-  { id:6,  p1:"Andrés Palacios",    p2:"Beatriz Rubín",     cabin:"Balcón Vista Mar",  res:"8888171" },
-  { id:7,  p1:"Mario Castro",       p2:"Andrea Martínez",   cabin:"Interior",          res:"5602664" },
-  { id:8, p1:"Juan Pablo Saucedo", p2:"Paola Artana",      cabin:"Balcón Vista Mar",  res:"1060973" },
+  { id:0, nick:"Kiko & Cris",    p1:"Francisco Vidal",    p2:"Cristina Guzmán",   cabin:"Balcón Vista Mar", res:"748375"  },
+  { id:1, nick:"Juan & Chinchi", p1:"Juan del Cerro",     p2:"Cynthia García",    cabin:"Balcón Vista Mar", res:"8992600" },
+  { id:2, nick:"Mike & Bego",    p1:"Miguel Balcázar",    p2:"Begoña Ramírez",    cabin:"Interior 12211",   res:"5222981", admin:true },
+  { id:3, nick:"Vizqui & Maris", p1:"Fco. Vizcaya",       p2:"Mariana Orozco",    cabin:"Balcón Vista Mar", res:"8766201" },
+  { id:4, nick:"Luis & Nat",     p1:"Luis Márquez",       p2:"Natalia Morera",    cabin:"Balcón Vista Mar", res:"5623520" },
+  { id:5, nick:"Mu & Gaby",      p1:"Alejandro Molina",   p2:"Gabriela Arta",     cabin:"Balcón Vista Mar", res:"9072339" },
+  { id:6, nick:"Andrew & Tatis", p1:"Andrés Palacios",    p2:"Beatriz Rubín",     cabin:"Balcón Vista Mar", res:"8888171" },
+  { id:7, nick:"Chux & Andrea",  p1:"Mario Castro",       p2:"Andrea Martínez",   cabin:"Interior",         res:"5602664" },
+  { id:8, nick:"Sauce & Pao",    p1:"Juan Pablo Saucedo", p2:"Paola Artana",      cabin:"Balcón Vista Mar", res:"1060973" },
 ];
 
 const ALL = [0,1,2,3,4,5,6,7,8];
