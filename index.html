@@ -169,27 +169,50 @@ function GroupChat({ myNick }) {
         esRef.current = es;
         es.addEventListener("put", (e) => {
           try {
-            const { data } = JSON.parse(e.data);
-            if (data) {
-              const list = Object.entries(data)
-                .map(([k,v]) => ({key:k,...v}))
-                .sort((a,b) => a.ts - b.ts)
-                .slice(-60);
-              setMsgs(list);
+            const { path, data } = JSON.parse(e.data);
+            if (path === "/") {
+              // Full state replacement (initial load or full wipe)
+              if (data) {
+                const list = Object.entries(data)
+                  .map(([k,v]) => ({key:k,...v}))
+                  .filter(m => m.ts && m.text)
+                  .sort((a,b) => a.ts - b.ts)
+                  .slice(-60);
+                setMsgs(list);
+              } else {
+                setMsgs([]);
+              }
             } else {
-              setMsgs([]);
+              // Single message added/updated/removed at path like "/-NxAbcDef"
+              const key = path.replace(/^\//, "");
+              if (data === null) {
+                setMsgs(prev => prev.filter(m => m.key !== key));
+              } else if (data && data.ts && data.text) {
+                setMsgs(prev => {
+                  const filtered = prev.filter(m => m.key !== key);
+                  return [...filtered, {key, ...data}].sort((a,b) => a.ts - b.ts).slice(-60);
+                });
+              }
             }
           } catch(e2) {}
         });
         es.addEventListener("patch", (e) => {
           try {
-            const { data } = JSON.parse(e.data);
+            const { path, data } = JSON.parse(e.data);
             if (data) {
+              const basePath = path === "/" ? "" : path.replace(/^\//, "");
               setMsgs(prev => {
                 const map = {};
                 prev.forEach(m => { map[m.key] = m; });
-                Object.entries(data).forEach(([k,v]) => { map[k] = {key:k,...v}; });
-                return Object.values(map).sort((a,b)=>a.ts-b.ts).slice(-60);
+                Object.entries(data).forEach(([k,v]) => {
+                  const fullKey = basePath ? `${basePath}/${k}` : k;
+                  if (v && v.ts && v.text) {
+                    map[fullKey] = {key:fullKey, ...v};
+                  } else if (v === null) {
+                    delete map[fullKey];
+                  }
+                });
+                return Object.values(map).filter(m => m.ts && m.text).sort((a,b)=>a.ts-b.ts).slice(-60);
               });
             }
           } catch(e2) {}
