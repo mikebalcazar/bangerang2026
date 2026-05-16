@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esposas Bangerang · Europa 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --hot:#E8365D; --orange:#F76C2F; --navy:#0E1F3D;
+  --teal:#0B9E8E; --gold:#E2A72E; --purple:#7B3FF2;
+  --bg:#FAFAF7; --card:#fff; --muted:#6B7280; --border:#E8E8E0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#1A1A2E;font-size:15px;line-height:1.6;}
+
+/* HERO */
+.hero{background:var(--navy);position:relative;overflow:hidden;min-height:260px;display:flex;align-items:center;justify-content:center;text-align:center;}
+.hero-bg-txt{position:absolute;font-family:'Syne',sans-serif;font-size:clamp(70px,22vw,200px);font-weight:800;color:rgba(255,255,255,0.045);white-space:nowrap;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-2px;}
+.hero-inner{position:relative;z-index:2;padding:44px 22px 36px;}
+.hero-badge{display:inline-block;background:var(--hot);color:#fff;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:14px;animation:badge-pulse 2.5s ease-in-out infinite;}
+@keyframes badge-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(34px,9vw,62px);font-weight:900;color:#fff;line-height:1.05;margin-bottom:8px;}
+.hero h1 em{color:var(--gold);font-style:italic;}
+.hero-sub{color:rgba(255,255,255,0.52);font-size:13px;margin-bottom:18px;line-height:1.5;}
+.hero-pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+.hero-pill{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);color:rgba(255,255,255,0.88);padding:4px 12px;border-radius:100px;font-size:11.5px;font-weight:600;}
+
+/* MALETA ALERT */
+.maleta-bar{background:linear-gradient(90deg,var(--hot),var(--orange));color:#fff;padding:13px 18px;display:flex;align-items:center;gap:11px;position:relative;overflow:hidden;}
+.maleta-bar::after{content:'🧳';position:absolute;right:-8px;font-size:65px;opacity:0.13;top:50%;transform:translateY(-50%);}
+.mb-icon{font-size:23px;flex-shrink:0;}
+.mb-text strong{display:block;font-size:14px;font-weight:800;line-height:1.3;}
+.mb-text span{font-size:11.5px;opacity:.9;}
+
+/* MAIN TABS */
+.main-tabs{background:var(--navy);display:flex;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
+.mtab{flex:1;padding:14px 10px;border:none;background:transparent;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:rgba(255,255,255,0.38);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;line-height:1.2;}
+.mtab.on{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* MAIN SECTIONS */
+.msec{display:none;max-width:700px;margin:0 auto;padding:0 14px 90px;}
+.msec.on{display:block;}
+
+/* SUB TABS */
+.stabs-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#fff;border-bottom:2px solid var(--border);margin:0 -14px 16px;position:sticky;top:52px;z-index:90;}
+.stabs-wrap::-webkit-scrollbar{display:none;}
+.stabs{display:flex;padding:0 6px;min-width:max-content;}
+.stab{flex-shrink:0;padding:12px 14px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;}
+.stab.on{color:var(--hot);border-bottom-color:var(--hot);}
+.ssec{display:none;padding-top:4px;}
+.ssec.on{display:block;}
+
+/* TYPOGRAPHY */
+.eyebrow{font-size:10.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--hot);margin-bottom:4px;}
+.big-title{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:var(--navy);margin-bottom:5px;line-height:1.2;}
+.sub-title{color:var(--muted);font-size:13px;margin-bottom:14px;line-height:1.5;}
+
+/* DESTINATION CARDS (Inspírate) */
+.dest-card{border-radius:18px;overflow:hidden;margin-bottom:14px;position:relative;box-shadow:0 4px 20px rgba(0,0,0,0.12);}
+.dest-img{width:100%;height:190px;object-fit:cover;display:block;}
+.dest-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.75));padding:20px 16px 16px;}
+.dest-label{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;display:block;}
+.dest-sub{font-size:12px;color:rgba(255,255,255,0.8);margin-top:2px;}
+.dest-tag{display:inline-block;background:var(--gold);color:var(--navy);font-size:10px;font-weight:800;padding:2px 9px;border-radius:100px;margin-top:5px;}
+
+/* INFO CARDS */
+.icard{background:var(--card);border-radius:16px;margin-bottom:12px;overflow:hidden;border:1.5px solid var(--border);}
+.icard-head{padding:13px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1.5px solid var(--border);}
+.icard-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.icard-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;line-height:1.2;}
+.icard-sub{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.icard-body{padding:12px 16px 14px;}
+
+/* NOTICES */
+.notice{border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.65;margin-bottom:11px;}
+.n-hot{background:#FEE8ED;border-left:4px solid var(--hot);}
+.n-gold{background:#FEF5E0;border-left:4px solid var(--gold);}
+.n-teal{background:#E0F7F5;border-left:4px solid var(--teal);}
+.n-purple{background:#F0EAFE;border-left:4px solid var(--purple);}
+.n-navy{background:var(--navy);color:rgba(255,255,255,.9);border-left:4px solid var(--gold);}
+.notice strong{font-weight:700;}
+.n-navy strong{color:var(--gold);}
+
+/* STYLE CARDS */
+.scard{border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.scard-img{width:100%;height:160px;object-fit:cover;display:block;}
+.scard-body{padding:14px 16px;}
+.scard-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px;}
+.scard-vibe{font-size:12px;color:var(--muted);margin-bottom:10px;font-style:italic;}
+.scard-items{font-size:13px;line-height:2.1;}
+.scard.el .scard-body{background:linear-gradient(135deg,#EEF0FF,#E8EAFF);}
+.scard.ca .scard-body{background:linear-gradient(135deg,#E8F8F5,#D5F2EC);}
+.scard.bo .scard-body{background:linear-gradient(135deg,#FEF6E0,#FEECC8);}
+.scard.ro .scard-body{background:linear-gradient(135deg,#F5E8FF,#EDD8FF);}
+
+/* NIGHT CARDS */
+.ncard{border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.1);}
+.ncard-head{padding:14px 16px;color:#fff;position:relative;overflow:hidden;}
+.ncard-head::after{content:attr(data-e);position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:60px;opacity:0.18;pointer-events:none;}
+.ncard-date{font-size:10px;opacity:.72;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.ncard-title{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;margin:3px 0;}
+.ncard-sub{font-size:12px;opacity:.88;line-height:1.4;}
+.ncard-body{background:#fff;border:1.5px solid var(--border);border-top:none;border-radius:0 0 16px 16px;padding:12px 16px;}
+
+/* CHECKLIST */
+.clist{list-style:none;}
+.citem{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #F2F2EE;cursor:pointer;}
+.citem:last-child{border-bottom:none;}
+.cbox{width:22px;height:22px;border:2px solid #CCCAC2;border-radius:6px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .18s;color:transparent;}
+.citem.done .cbox{background:var(--teal);border-color:var(--teal);color:#fff;}
+.citem.done .cname{opacity:.4;text-decoration:line-through;}
+.cemoji{font-size:18px;flex-shrink:0;margin-top:1px;}
+.cname{font-size:13.5px;line-height:1.5;}
+.cname small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.5;}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;margin-left:5px;vertical-align:middle;}
+.t-red{background:#FFE5EC;color:var(--hot);}
+.t-gold{background:#FEF5DC;color:#A07000;}
+.t-teal{background:#DCF5F3;color:#076E64);}
+
+/* LAUNDRY TABS */
+.ltabs{display:flex;gap:8px;margin-bottom:12px;}
+.ltab{flex:1;padding:10px 6px;border:2px solid var(--border);border-radius:11px;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;text-align:center;color:var(--muted);transition:all .2s;line-height:1.5;}
+.ltab.on{border-color:var(--navy);background:var(--navy);color:#fff;}
+.ltbody{display:none;}
+.ltbody.show{display:block;}
+
+/* OWALA */
+.owala-box{background:linear-gradient(135deg,#0B9E8E,#07796C);border-radius:14px;padding:14px 16px;color:#fff;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;}
+.owala-icon{font-size:30px;flex-shrink:0;}
+.owala-box strong{display:block;font-size:14px;font-weight:800;margin-bottom:3px;}
+.owala-box span{font-size:12.5px;opacity:.92;line-height:1.65;}
+
+/* ACTITUD */
+.act-card{background:linear-gradient(135deg,#0E1F3D,#1A0E3D);border-radius:18px;padding:20px;color:#fff;margin-bottom:13px;}
+.act-card h3{font-family:'Fraunces',serif;font-size:23px;font-weight:900;color:var(--gold);margin-bottom:13px;font-style:italic;}
+.act-item{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:13.5px;line-height:1.6;}
+.act-item:last-child{border-bottom:none;}
+.act-e{font-size:19px;flex-shrink:0;}
+
+/* QUESTIONNAIRE */
+.qcard{background:#fff;border-radius:16px;border:1.5px solid var(--border);padding:16px;margin-bottom:14px;margin-top:14px;}
+.qstep{margin-bottom:17px;}
+.qstep:last-child{margin-bottom:0;}
+.qlabel{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px;line-height:1.3;}
+.qnum{background:var(--navy);color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.qopts{display:flex;flex-wrap:wrap;gap:8px;}
+.qopt{padding:8px 15px;border:2px solid var(--border);border-radius:100px;background:#fff;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .2s;}
+.qopt.on{border-color:var(--navy);background:var(--navy);color:#fff;}
+.qdiv{border:none;height:1px;background:var(--border);margin:15px 0;}
+.gen-btn{width:100%;padding:15px;background:var(--hot);color:#fff;border:none;border-radius:13px;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;margin-top:6px;letter-spacing:.3px;}
+.gen-btn:disabled{background:#BDB8B0;cursor:not-allowed;}
+.gen-btn:not(:disabled):hover{background:#c4284e;}
+
+/* GENERATED LIST */
+.genwrap{display:none;}
+.genwrap.on{display:block;}
+.prog-card{background:#fff;border-radius:13px;border:1.5px solid var(--border);padding:13px 16px;margin-bottom:14px;}
+.prog-label{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;font-weight:600;}
+.prog-bar{height:8px;border-radius:4px;background:var(--border);overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--hot));transition:width .4s ease;width:0%;}
+.gen-card{background:#fff;border-radius:16px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:13px;}
+.gen-cat{padding:4px 16px 12px;}
+.gen-cat-title{font-family:'Syne',sans-serif;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--hot);padding:13px 0 6px;display:flex;align-items:center;gap:8px;}
+.gen-cat-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.gitem{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #F4F4F0;cursor:pointer;}
+.gitem:last-child{border-bottom:none;}
+.gbox{width:22px;height:22px;border:2px solid #CCCAC2;border-radius:6px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .18s;color:transparent;}
+.gitem.done .gbox{background:var(--teal);border-color:var(--teal);color:#fff;}
+.gitem.done .gname{opacity:.4;text-decoration:line-through;}
+.gemoji{font-size:17px;flex-shrink:0;margin-top:1px;}
+.gname{font-size:13.5px;line-height:1.5;}
+.gname small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.5;}
+
+/* MARIDO */
+.marido-card{background:linear-gradient(135deg,#1A0E3D,#2A1860);border-radius:18px;padding:20px;color:#fff;margin-top:8px;}
+.marido-card h3{font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--gold);font-style:italic;margin-bottom:3px;}
+.marido-sub{font-size:12px;opacity:.65;margin-bottom:15px;line-height:1.5;}
+.witem{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1);cursor:pointer;}
+.witem:last-child{border-bottom:none;}
+.wbox{width:22px;height:22px;border:2px solid rgba(255,255,255,.3);border-radius:6px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .18s;color:transparent;}
+.witem.done .wbox{background:var(--teal);border-color:var(--teal);color:#fff;}
+.witem.done .wname{opacity:.4;text-decoration:line-through;}
+.wemoji{font-size:17px;flex-shrink:0;margin-top:1px;}
+.wname{font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.92);}
+.wname small{display:block;font-size:11.5px;color:rgba(255,255,255,.52);margin-top:2px;line-height:1.5;}
+
+footer{text-align:center;padding:24px 20px;font-size:12px;color:var(--muted);font-style:italic;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-txt">BANGERANG</div>
+  <div class="hero-inner">
+    <div class="hero-badge">✈️ Mayo – Junio 2026</div>
+    <h1><em>Esposas</em><br>Bangerang</h1>
+    <p class="hero-sub">Odyssey of the Seas · Roma · París si te animas<br>Una maleta. Solo una. Ya sé, ya sé — "solo un par de zapatos extra."</p>
+    <div class="hero-pills">
+      <span class="hero-pill">🚢 7 noches crucero</span>
+      <span class="hero-pill">🏛️ 2 noches Roma</span>
+      <span class="hero-pill">🗼 +2 noches París</span>
+      <span class="hero-pill">☀️ 24–30°C Mediterráneo</span>
+      <span class="hero-pill">🌦️ 12°C París de noche</span>
+    </div>
+  </div>
+</div>
+
+<div class="maleta-bar">
+  <div class="mb-icon">🧳</div>
+  <div class="mb-text">
+    <strong>Una maleta grande + carry-on. Ya sé: "solo un par de zapatos extra."</strong>
+    <span>Los zapatos extra también pesan en el adoquín de Roma. Lo que empacas, lo cargas tú.</span>
+  </div>
+</div>
+
+<!-- MAIN TABS -->
+<div class="main-tabs">
+  <button class="mtab on" onclick="showMain('inspirate',this)">✨ Inspírate</button>
+  <button class="mtab" onclick="showMain('milista',this)">📋 Mi Lista</button>
+</div>
+
+<!-- ══════════ INSPÍRATE ══════════ -->
+<div id="m-inspirate" class="msec on">
+  <div class="stabs-wrap">
+    <div class="stabs">
+      <button class="stab on" onclick="showSub('destinos',this)">🗺️ Destinos</button>
+      <button class="stab" onclick="showSub('estilos',this)">👗 Estilos</button>
+      <button class="stab" onclick="showSub('noches',this)">🎭 Noches</button>
+      <button class="stab" onclick="showSub('lavanderia',this)">👕 Lavandería</button>
+      <button class="stab" onclick="showSub('actitud',this)">🔥 Actitud</button>
+    </div>
+  </div>
+
+  <!-- DESTINOS -->
+  <div id="s-destinos" class="ssec on">
+    <div class="eyebrow">Tu itinerario real</div>
+    <div class="big-title">A dónde vas</div>
+    <p class="sub-title">7 noches, 5 destinos, una maleta. El orden importa para saber qué empacar.</p>
+
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1555993539-1732b0258235?w=700&q=80" alt="Roma" onerror="this.style.background='#1C2B5A';this.style.height='190px';">
+      <div class="dest-overlay">
+        <span class="dest-label">🏛️ Roma · 22–24 Mayo</span>
+        <div class="dest-sub">22–26°C · 2 noches antes del crucero</div>
+        <span class="dest-tag">Embarque en Civitavecchia</span>
+      </div>
+    </div>
+    <div class="notice n-gold" style="margin-top:-6px;margin-bottom:14px">
+      <strong>⚠️ Roma y el adoquín:</strong> Todo el centro histórico es adoquín. Si llevas tacón en Roma el adoquín gana. Siempre gana el adoquín, a güevo. Sin excepciones. Sin apelaciones.
+    </div>
+
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=700&q=80" alt="Santorini" onerror="this.style.background='#1A4A8A';this.style.height='190px';">
+      <div class="dest-overlay">
+        <span class="dest-label">🌊 Santorini · 25–26 Mayo</span>
+        <div class="dest-sub">Puerto tender (bajas en lancha) · Noche Tropical después</div>
+        <span class="dest-tag">El atardecer más famoso del mundo</span>
+      </div>
+    </div>
+    <div class="notice n-hot" style="margin-top:-6px;margin-bottom:14px">
+      <strong>☀️ El sol de Santorini no es el de Cancún.</strong> Es el sol que quema aunque estés bajo la sombrilla. SPF50+ cada hora. Los hombros pagan el precio de la foto bonita.
+    </div>
+
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=700&q=80" alt="Capri" onerror="this.style.background='#0A5A3A';this.style.height='190px';">
+      <div class="dest-overlay">
+        <span class="dest-label">⛵ Nápoles & Capri · 29–30 Mayo</span>
+        <div class="dest-sub">Boat tour incluido · Rocas mojadas · Agua turquesa</div>
+        <span class="dest-tag">Llevar sandalia de agarre</span>
+      </div>
+    </div>
+    <div class="notice n-teal" style="margin-top:-6px;margin-bottom:14px">
+      <strong>🏄 Boat tour de Capri:</strong> Las flip-flop básicas en rocas mojadas = resbalón garantizado con público. Llevar sandalia de agua con agarre. No es sugerencia, es advertencia.
+    </div>
+
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1541614101331-1a5a3a194e92?w=700&q=80" alt="Mykonos" onerror="this.style.background='#1A5A8A';this.style.height='190px';">
+      <div class="dest-overlay">
+        <span class="dest-label">💙 Mykonos · 28 Mayo</span>
+        <div class="dest-sub">Puerto tender · White Party esa noche</div>
+        <span class="dest-tag">€8 la cerveza. No es error.</span>
+      </div>
+    </div>
+
+    <div class="owala-box">
+      <div class="owala-icon">🥤</div>
+      <div>
+        <strong>Truco del termo Owala / Yeti / Stanley — tráelo</strong>
+        <span>El paquete de bebidas viene en vasitos de plástico que se derraman con la primera ola. Con tu termo llevas el cóctel a la piscina, al show, al balcón, al jacuzzi. En tierra sobrevives el calor de Éfeso y Roma. Contenido declarado al subir al barco: "agua". Contenido real: tus decisiones son tuyas y de tu marido. 📌 Juan del Cerro también mandó hacer una estampa para pegarle al termo. Tu Owala nunca había estado tan... personalizada. A 🥚 que queda horrible pero la vas a usar igual.</span>
+      </div>
+    </div>
+
+    <div class="icard">
+      <div class="icard-head">
+        <div class="icard-icon" style="background:#E8F0FF">⚡</div>
+        <div><div class="icard-title">Voltaje en el camarote</div><div class="icard-sub">Odyssey of the Seas · hay de los dos</div></div>
+      </div>
+      <div class="icard-body">
+        <div class="notice n-teal" style="margin-bottom:0">
+          <strong>✅ En el escritorio tienes:</strong> 2 enchufes americanos 110V (sin adaptador) · 1 enchufe europeo 220V · Puertos USB.<br><br>
+          <strong>⚡ Tu Dyson / T3:</strong> Si la etiqueta dice "100–240V" funciona en cualquier enchufe. La mayoría vendidos en México son dual voltage — revisa la plaquita antes de empacar el transformador de 2kg.<br><br>
+          <strong>🚫 Prohibido en el barco:</strong> Planchas, rizadores, extensiones multiprises. Los confiscan. Sin drama pero con mucha firmeza. El pelo natural también está de moda, dicen.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTILOS -->
+  <div id="s-estilos" class="ssec">
+    <div class="eyebrow">Decide antes de hacer tu lista</div>
+    <div class="big-title">¿Cuál eres tú?</div>
+    <p class="sub-title">Lee los estilos, decide con cuál te identificas, y cuando vayas a "Mi Lista" elige el mismo — tu checklist se arma automáticamente con tu ropa.</p>
+
+    <div class="notice n-teal">
+      <strong>💡 Regla de oro para que la maleta cierre:</strong> Cada prenda debe hacer mínimo 2 trabajos. Vestido boho blanco = White Party + Santorini + cena. Blazer = noche elegante + Roma + París. Si una prenda solo sirve para una cosa, se queda en México. Sin sentimentalismos.
+    </div>
+
+    <div class="scard el">
+      <img class="scard-img" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=700&q=80" alt="estilo elegante" onerror="this.style.display='none'">
+      <div class="scard-body">
+        <div class="scard-title">✨ La Sofisticada</div>
+        <div class="scard-vibe">"Llego a Santorini y la gente cree que vivo ahí. Los turistas me piden foto."</div>
+        <div class="scard-items">
+          👗 Vestido midi (nude, blanco o azul cobalto)<br>
+          👗 Vestido largo o cóctel para Dress Your Best<br>
+          👗 Conjunto de lino top + pantalón para el calor<br>
+          🤍 Look blanco elegante para White Party<br>
+          👡 Kitten heel o cuña que aguante caminar<br>
+          👡 Ballerina plana para Roma y museos<br>
+          🧥 Blazer de lino (Roma + París + cenas)<br>
+          💍 Joyería dorada discreta<br>
+          👜 Bolsa de raffia o cuero mediana<br>
+          🕶️ Lentes cat-eye u oversized UV400<br>
+          👒 Sombrero de ala ancha aplastable
+        </div>
+      </div>
+    </div>
+
+    <div class="scard ca">
+      <img class="scard-img" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=700&q=80" alt="estilo casual" onerror="this.style.display='none'">
+      <div class="scard-body">
+        <div class="scard-title">🌿 La Ultra Casual Chic</div>
+        <div class="scard-vibe">"Cómoda y guapa. Nadie sabe que tardé 8 minutos en arreglarme."</div>
+        <div class="scard-items">
+          👖 Jeans blancos o pantalón de lino beige<br>
+          👕 Camisetas de algodón de calidad (3–4)<br>
+          🩴 Birkenstock, sandalia con agarre o tenis blancos<br>
+          🧢 Gorra o bucket hat<br>
+          🕶️ Lentes vintage o aviator UV400<br>
+          🎒 Tote de lona o mochila pequeña<br>
+          🧣 Pañuelo de seda — 3 looks con uno<br>
+          👗 Vestido sencillo de tirantes<br>
+          🤍 Look blanco casual para White Party
+        </div>
+      </div>
+    </div>
+
+    <div class="scard bo">
+      <img class="scard-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=700&q=80" alt="estilo boho" onerror="this.style.display='none'">
+      <div class="scard-body">
+        <div class="scard-title">🌺 La Boho Mediterránea</div>
+        <div class="scard-vibe">"Santorini fue diseñado arquitectónicamente para mí."</div>
+        <div class="scard-items">
+          🧡 Vestido maxi (rayas, étnico o bordado)<br>
+          🌸 Falda fluida en coral, turquesa u ocre<br>
+          👙 Bikini de crochet o estampado boho<br>
+          🩴 Sandalias de tiras estilo griego<br>
+          🧶 Cover-up tejido o de gasa<br>
+          📿 Accesorios: conchas, turquesa, chaquira<br>
+          💐 Flores en el pelo (Tropical Night: perfecto)<br>
+          🌙 Vestido blanco bordado — White Party + Santorini + cena<br>
+          🕶️ Lentes redondos o hexagonales de colores<br>
+          👒 Sombrero de paja ala ancha<br>
+          🧺 Bolsa de raffia o macramé
+        </div>
+      </div>
+    </div>
+
+    <div class="scard ro">
+      <img class="scard-img" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=700&q=80" alt="estilo trendy" onerror="this.style.display='none'">
+      <div class="scard-body">
+        <div class="scard-title">🎸 La Trendy Sin Disculpas</div>
+        <div class="scard-vibe">"No vine al Mediterráneo a pasar desapercibida."</div>
+        <div class="scard-items">
+          🖤 Pantalón negro de cuero o vinilo (80s: perfecto)<br>
+          ✨ Top con hombros pronunciados o lentejuelas<br>
+          🎸 Camiseta gráfica + blazer oversized<br>
+          👢 Bota corta o tenis chunky para Roma<br>
+          💄 Labial rojo oscuro — el accesorio principal<br>
+          🕶️ Lentes statement XXL o de color sorpresa<br>
+          💍 Anillos apilados, aretes exagerados, pulseras<br>
+          👜 Bolsa de cadena pequeña dorada o negra<br>
+          🤍 Blazer blanco o vestido ajustado para White Party
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOCHES -->
+  <div id="s-noches" class="ssec">
+    <div class="eyebrow">4 noches, 4 looks, 0 excusas</div>
+    <div class="big-title">Las noches épicas</div>
+    <p class="sub-title">Preparar en México. Cada outfit en bolsa identificada, hasta arriba de la maleta. A las 7pm nadie quiere sacar todo.</p>
+
+    <div class="notice n-hot"><strong>📦 Hacer ANTES de cerrar la maleta en México:</strong> Separar cada outfit por noche en bolsa con nombre, ponerlas encima de todo. El día de la noche temática te lo agradeces a ti misma.</div>
+
+    <div class="ncard">
+      <div class="ncard-head" data-e="✨" style="background:linear-gradient(135deg,#1C2B5A,#3050A0)">
+        <div class="ncard-date">Lunes 25 Mayo — Día de mar</div>
+        <div class="ncard-title">✨ Dress Your Best</div>
+        <div class="ncard-sub">La noche elegante. Fotos profesionales. Peluca obligatoria para TODOS.</div>
+      </div>
+      <div class="ncard-body"><ul class="clist">
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👗</span><div class="cbox">✓</div><div class="cname">Vestido largo o midi de cóctel <span class="tag t-red">OBLIGATORIO</span><small>El que guardas para "una ocasión especial". Spoiler: esta es la ocasión. El Mediterráneo no espera a que decidas.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👡</span><div class="cbox">✓</div><div class="cname">Tacón o kitten heel que aguante toda la noche<small>Tip no solicitado: gel en los talones antes de ponértelo. Lo aprendes a las malas una sola vez. Una sola.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🎭</span><div class="cbox">✓</div><div class="cname">PELUCA — todo el grupo, sin excepción <span class="tag t-red">TODOS</span><small>Si llegas sin peluca, el grupo te consigue una. Probablemente peor que la que hubieras elegido. Mucho peor.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">💍</span><div class="cbox">✓</div><div class="cname">La joyería buena — la que guardas para "ocasión especial"<small>¿Y esta qué es exactamente? Sí. Exacto. Sácala.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👜</span><div class="cbox">✓</div><div class="cname">Clutch de noche<small>Teléfono, labial, SeaPass y actitud de noche de gala. Nada más cabe ni nada más hace falta.</small></div></li>
+      </ul></div>
+    </div>
+
+    <div class="ncard">
+      <div class="ncard-head" data-e="🌺" style="background:linear-gradient(135deg,#C44408,#E87020)">
+        <div class="ncard-date">Martes 26 Mayo — Venimos de Santorini</div>
+        <div class="ncard-title">🌺 Tropical Night</div>
+        <div class="ncard-sub">Todos los colores del mundo. Esta noche "demasiado" no existe.</div>
+      </div>
+      <div class="ncard-body"><ul class="clist">
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🌸</span><div class="cbox">✓</div><div class="cname">Vestido tropical (coral, verde, amarillo, naranja)<small>Entre más colores, mejor calificación. Si combina todo a la vez: ganaste esta noche.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">💐</span><div class="cbox">✓</div><div class="cname">Accesorio de pelo tropical (flores, diadema, clips)<small>Llevar de más para compartir. La que llega sin accesorio termina con la servilleta del comedor en el pelo. Pasa, oye.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🩴</span><div class="cbox">✓</div><div class="cname">Sandalias de cuña o planas de color<small>Esta noche no existe el "no combina". Existe el "tropical". Son conceptos distintos.</small></div></li>
+      </ul></div>
+    </div>
+
+    <div class="ncard">
+      <div class="ncard-head" data-e="🎸" style="background:linear-gradient(135deg,#5C0A9E,#8B30D0)">
+        <div class="ncard-date">Miércoles 27 Mayo</div>
+        <div class="ncard-title">🎸 Noche 80s</div>
+        <div class="ncard-sub">DISFRAZ COMPLETO. No "toque 80s". No "con el pelo y ya". D-I-S-F-R-A-Z.</div>
+      </div>
+      <div class="ncard-body">
+        <div class="notice n-purple" style="margin-top:0"><strong>⚠️ Si dudas si tu disfraz es suficientemente exagerado: agrega más.</strong> Esa es la única regla de los 80s y no tiene excepción.</div>
+        <ul class="clist">
+          <li class="citem" onclick="toggleC(this)"><span class="cemoji">💜</span><div class="cbox">✓</div><div class="cname">Legging neón o de vinilo (fucsia, morado, verde neón)<small>Los 80s no conocían la discreción cromática. Tú tampoco esta noche.</small></div></li>
+          <li class="citem" onclick="toggleC(this)"><span class="cemoji">✨</span><div class="cbox">✓</div><div class="cname">Top con hombros pronunciados o lentejuelas<small>El hombro es el protagonista absoluto de los 80s. Dale todo el espacio que merece.</small></div></li>
+          <li class="citem" onclick="toggleC(this)"><span class="cemoji">💎</span><div class="cbox">✓</div><div class="cname">Accesorios exagerados: aretes XXL, pulseras apiladas, diadema<small>Todo lo que normalmente sería "demasiado" esta noche es "insuficiente". Calibra en consecuencia.</small></div></li>
+          <li class="citem" onclick="toggleC(this)"><span class="cemoji">💄</span><div class="cbox">✓</div><div class="cname">Maquillaje 80s: sombra de colores, labial fucsia, rubor exagerado<small>Practicar una vez en casa. La luz del camarote engaña. Siempre. Sin excepción.</small></div></li>
+          <li class="citem" onclick="toggleC(this)"><span class="cemoji">💇</span><div class="cbox">✓</div><div class="cname">Spray de color temporal o pelo cardado<small>Transformación instantánea. Se va con agua. Sin drama el día siguiente.</small></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ncard">
+      <div class="ncard-head" data-e="🤍" style="background:linear-gradient(135deg,#0A6E30,#14A045)">
+        <div class="ncard-date">Jueves 28 Mayo — Post-Mykonos</div>
+        <div class="ncard-title">🤍 White Party + Latin Night</div>
+        <div class="ncard-sub">18 personas de blanco en el Mediterráneo. Somos involuntariamente el show del barco.</div>
+      </div>
+      <div class="ncard-body"><ul class="clist">
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🤍</span><div class="cbox">✓</div><div class="cname">Vestido BLANCO <span class="tag t-red">SIN NEGOCIACIÓN</span><small>No beige. No marfil. No "casi blanco con luz". BLANCO. Fosfito si puede ser. La foto que se guarda para siempre.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">✨</span><div class="cbox">✓</div><div class="cname">Accesorios dorados<small>Blanco + dorado. No falla. Nunca ha fallado en la historia de la humanidad. No va a fallar hoy.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">💃</span><div class="cbox">✓</div><div class="cname">Zapato que aguante bailar 3+ horas<small>La Latin Night no termina hasta que se acaba el ritmo o el paquete de bebidas. Lo que ocurra primero.</small></div></li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- LAVANDERÍA -->
+  <div id="s-lavanderia" class="ssec">
+    <div class="eyebrow">La decisión que define cuánto pesa tu maleta</div>
+    <div class="big-title">Lavandería o no</div>
+    <p class="sub-title">$344 MXN por bolsa (35×53cm) · 20% OFF comprando antes del crucero · Hasta 3 bolsas.</p>
+
+    <div class="notice n-gold"><strong>✅ Lavan:</strong> ropa interior, básicos, bikinis, gym, casual.<br><strong>❌ No lavan (cobran extra):</strong> vestidos de noche, blazers, blusas formales.<br><strong>⚠️ Llenar el Royal Laundry Card con CADA prenda.</strong> Lo que no escribiste se cobra a precio regular. Leerlo aunque sea aburrido.</div>
+
+    <div class="ltabs">
+      <button class="ltab on" onclick="setL('si',this)">✅ Sí uso<br>lavandería</button>
+      <button class="ltab" onclick="setL('no',this)">🚫 Sin<br>lavandería</button>
+      <button class="ltab" onclick="setL('pods',this)">🫧 Tide Pods<br>+ lavabo</button>
+    </div>
+    <div id="l-si" class="ltbody show">
+      <div class="notice n-teal"><strong>Con lavandería llevas menos.</strong> Ropa casual regresa en ~24h. Funciona si no te da cosa que un extraño vea tu ropa interior. No debería. Ya somos grandes, mana.</div>
+      <ul class="clist">
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🩲</span><div class="cbox">✓</div><div class="cname">Ropa interior: <strong>5–6 piezas</strong><small>Con rotación es más que suficiente.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👙</span><div class="cbox">✓</div><div class="cname">Bikinis: <strong>2</strong><small>Los lavan. O cuélgalos en el balcón — con ese sol secos en 2h.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🧦</span><div class="cbox">✓</div><div class="cname">Calcetines: <strong>4–5 pares</strong></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👕</span><div class="cbox">✓</div><div class="cname">Básicos: <strong>3–4</strong><small>No uno por día. Para eso pagamos la lavandería. ¿O qué?</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🏋️</span><div class="cbox">✓</div><div class="cname">Ropa de gym: <strong>2 outfits</strong></div></li>
+      </ul>
+    </div>
+    <div id="l-no" class="ltbody">
+      <div class="notice n-hot"><strong>Sin lavandería necesitas más.</strong> Tu maleta pesará más. Roma tiene adoquín. Ya lo dijimos tres veces. La cuarta ya es culpa tuya.</div>
+      <ul class="clist">
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🩲</span><div class="cbox">✓</div><div class="cname">Ropa interior: <strong>10–12 piezas</strong><small>Una por día + 2 extra "por si el Mediterráneo despierta algo". Sin preguntar qué.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👙</span><div class="cbox">✓</div><div class="cname">Bikinis: <strong>3</strong><small>Uno siempre mojado. Ley universal del crucero desde 1960.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🧦</span><div class="cbox">✓</div><div class="cname">Calcetines: <strong>8–10 pares</strong></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👕</span><div class="cbox">✓</div><div class="cname">Básicos: <strong>6–7</strong><small>El básico negro aguanta el segundo día. El de color: no tanto.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🏋️</span><div class="cbox">✓</div><div class="cname">Ropa de gym: <strong>2–3 outfits</strong></div></li>
+      </ul>
+    </div>
+    <div id="l-pods" class="ltbody">
+      <div class="notice n-purple"><strong>🫧 El hack de las que ya han viajado:</strong> 5–6 Tide Pods en una bolsita ziploc. En el lavabo del camarote lavas ropa interior y básicos. Con el sol mediterráneo: secos antes de la cena. Llevas menos, pesas menos, te sientes muy inteligente los 7 días seguidos.</div>
+      <ul class="clist">
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🫧</span><div class="cbox">✓</div><div class="cname">Tide Pods: <strong>6 en bolsa ziploc</strong><small>No traigas la caja completa. Eso delata nivel turista principiante.</small></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🩲</span><div class="cbox">✓</div><div class="cname">Ropa interior: <strong>6–8 piezas</strong></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">🧦</span><div class="cbox">✓</div><div class="cname">Calcetines: <strong>5–6 pares</strong></div></li>
+        <li class="citem" onclick="toggleC(this)"><span class="cemoji">👕</span><div class="cbox">✓</div><div class="cname">Básicos de algodón: <strong>4–5</strong><small>El algodón se seca rápido. El de rayón en el lavabo: no te arriesgues. Tiene sus propias reglas.</small></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ACTITUD -->
+  <div id="s-actitud" class="ssec">
+    <div class="eyebrow">Lo que Royal no puede confiscar</div>
+    <div class="big-title">Lo más importante</div>
+    <p class="sub-title">Sin esto la maleta está incompleta aunque todo quepa perfectamente.</p>
+    <div class="act-card">
+      <h3>Esto no cabe en ninguna maleta</h3>
+      <div class="act-item"><div class="act-e">🌊</div><div>La actitud de que este viaje lo merecías. Lo planeaste, lo pagaste. Ahora lo disfrutas sin culpa ni disculpa.</div></div>
+      <div class="act-item"><div class="act-e">👶</div><div>La actitud de la mamá que viaja SIN hijos. No hay "espérate", no hay "me da cosa", no hay lonches que preparar. Están bien. Esta semana la que necesita atención eres tú.</div></div>
+      <div class="act-item"><div class="act-e">🍷</div><div>La actitud de pedir otra copa sin calcular a qué hora te levantas mañana a hacer el lunch. No hay lunch esta semana. Disfruta que esto es nuevo y muy agradable.</div></div>
+      <div class="act-item"><div class="act-e">😴</div><div>La actitud de dormir hasta tarde sin culpa. El buffet abre hasta las 11. Llegarás a las 10:58 en pijama con café. Va a estar perfectamente bien. Te lo juro.</div></div>
+      <div class="act-item"><div class="act-e">💃</div><div>La actitud de bailar en la Noche 80s aunque tengas 0 coordinación y 3 copas encima. Especialmente entonces. Las mejores memorias nacen exactamente ahí.</div></div>
+      <div class="act-item"><div class="act-e">📸</div><div>La actitud de salir en las fotos aunque no estés en tu mejor ángulo. Las perfectas se ven perfectas. Las reales se recuerdan para siempre.</div></div>
+      <div class="act-item"><div class="act-e">😏</div><div>La actitud de haber empacado bien. Tú sabes exactamente a qué me refiero. Sin niños, siete noches, Mediterráneo de fondo. El espacio en la maleta se aprovecha con inteligencia. Punto. No hay más que decir.</div></div>
+      <div class="act-item"><div class="act-e">💛</div><div>La actitud de que este grupo, este barco, este Mediterráneo — no se repiten exactamente igual. Nunca. Estar presente de verdad.</div></div>
+    </div>
+    <div class="notice n-navy"><strong>🚢 Odyssey of the Seas · Europa 2026</strong><br>Santorini · Éfeso · Mykonos · Nápoles &amp; Capri · Roma · Y si te animas: París.<br>Una maleta. Mucha actitud. Cero lonches.</div>
+  </div>
+</div>
+
+<!-- ══════════ MI LISTA ══════════ -->
+<div id="m-milista" class="msec">
+  <div class="eyebrow" style="padding-top:16px">Tu checklist personalizado</div>
+  <div class="big-title">Arma tu lista</div>
+  <p class="sub-title">Contesta 3 preguntas y se genera tu lista completa, ordenada y lista para palomear mientras empacas.</p>
+
+  <div class="qcard">
+    <div class="qstep">
+      <div class="qlabel"><span class="qnum">1</span> ¿Cuál es tu estilo? (Ve la pestaña Estilos si tienes duda)</div>
+      <div class="qopts">
+        <button class="qopt" onclick="selQ('estilo','elegante',this)">✨ Sofisticada</button>
+        <button class="qopt" onclick="selQ('estilo','casual',this)">🌿 Casual Chic</button>
+        <button class="qopt" onclick="selQ('estilo','boho',this)">🌺 Boho</button>
+        <button class="qopt" onclick="selQ('estilo','rock',this)">🎸 Trendy</button>
+      </div>
+    </div>
+    <hr class="qdiv">
+    <div class="qstep">
+      <div class="qlabel"><span class="qnum">2</span> ¿Usas lavandería del barco? (Ve la pestaña Lavandería si tienes duda)</div>
+      <div class="qopts">
+        <button class="qopt" onclick="selQ('lavanderia','si',this)">✅ Sí uso</button>
+        <button class="qopt" onclick="selQ('lavanderia','no',this)">🚫 Sin lavandería</button>
+        <button class="qopt" onclick="selQ('lavanderia','pods',this)">🫧 Tide Pods</button>
+      </div>
+    </div>
+    <hr class="qdiv">
+    <div class="qstep">
+      <div class="qlabel"><span class="qnum">3</span> ¿Vas a París después del crucero?</div>
+      <div class="qopts">
+        <button class="qopt" onclick="selQ('paris','si',this)">🗼 Sí voy</button>
+        <button class="qopt" onclick="selQ('paris','no',this)">🚢 Solo el crucero</button>
+      </div>
+    </div>
+    <button class="gen-btn" id="genbtn" onclick="makeList()" disabled>✨ Generar mi lista personalizada →</button>
+  </div>
+
+  <div class="genwrap" id="genwrap">
+    <div class="prog-card">
+      <div class="prog-label"><span>Progreso de empaque</span><span id="prog-txt">0 / 0</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+    <div class="gen-card" id="list-container"></div>
+
+    <!-- MARIDO -->
+    <div class="marido-card">
+      <h3>Lo del marido 👔</h3>
+      <p class="marido-sub">Lista completa del señor. Spoiler: le sobra espacio en la maleta. Ese espacio tiene dueña y responde al nombre de "tus zapatos extra".</p>
+      <ul style="list-style:none">
+        <li class="witem" onclick="toggleW(this)"><span class="wemoji">👕</span><div class="wbox">✓</div><div class="wname">3–4 camisas o polos <span class="tag t-gold">MÁXIMO</span><small>Se repite la camisa azul. En cada viaje. Desde siempre. Déjalo — tiene su propio sistema.</small></div></li>
+        <li class="witem" onclick="toggleW(this)"><span class="wemoji">👖</span><div class="wbox">✓</div><div class="wname">2 pantalones (1 casual, 1 oscuro para cenas)<small>El oscuro vale para Dress Your Best + cenas + Roma. Tres trabajos. Así de fácil les va a ellos en la vida.</small></div></li>
+        <li class="witem" onclick="toggleW(this)"><span class="wemoji">🩲</span><div class="wbox">✓</div><div class="wname">7 calzones y calcetines<small>Uno por día. Sin misterio. Sin filosofía. Sin protocolo de empaque.</small></div></li>
+        <li class="witem" onclick="toggleW(this)"><span class="wemoji">👙</span><div class="wbox">✓</div><div class="wname">1 traje de baño<small>Con uno es suficiente. Si trae uno solo: le sobra espacio en la maleta. Volveremos a este punto.</small></div></li>
+        <li class="witem" onclick="toggleW(this)"><span class="wemoji">🎸</span><div class="wbox">✓</div><div class="wname">Disfraz 80s + algo blanco para White Party<small>Díselo desde ahorita. No el miércoles en la noche del barco cuando ya no hay opciones y se presenta con una camisa polo azul "que es casi blanca".</small></div></li>
+        <li class="witem" onclick="toggleW(this)"><span class="wemoji">👞</span><div class="wbox">✓</div><div class="wname">2 pares: tenis + zapato oscuro para cenas<small>Con esos dos se arregla para todo el viaje. Todo. Diez días. Dos pares. Así les va a ellos en la vida.</small></div></li>
+        <li class="witem" onclick="toggleW(this)"><span class="wemoji">💊</span><div class="wbox">✓</div><div class="wname">Ibuprofeno, Dramamine y bloqueador<small>No los va a empacar él. Ya lo sabes. Ponlos tú en su maleta directamente. De nada.</small></div></li>
+      </ul>
+      <p style="margin-top:14px;font-size:12.5px;color:rgba(255,255,255,0.6);line-height:1.6;">💡 La maleta de él tiene espacio libre. Tus zapatos extra van ahí. Él no necesita saber los detalles de este acuerdo.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Esposas Bangerang · Europa 2026<br>
+  Hecha con cariño, con el itinerario completo en mano y con total conocimiento de que siempre hay "un par de zapatos extra" 🚢
+</footer>
+
+<script>
+// ── Navigation ──────────────────────────────────────────
+function showMain(id, btn) {
+  document.querySelectorAll('.msec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.mtab').forEach(b => b.classList.remove('on'));
+  document.getElementById('m-' + id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showSub(id, btn) {
+  document.querySelectorAll('.ssec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('on'));
+  document.getElementById('s-' + id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({ top: 100, behavior: 'smooth' });
+}
+function toggleC(el) { el.classList.toggle('done'); }
+function toggleW(el) { el.classList.toggle('done'); }
+function setL(t, btn) {
+  document.querySelectorAll('.ltab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.ltbody').forEach(b => b.classList.remove('show'));
+  btn.classList.add('on');
+  document.getElementById('l-' + t).classList.add('show');
+}
+
+// ── Questionnaire ───────────────────────────────────────
+const ans = { estilo: null, lavanderia: null, paris: null };
+function selQ(k, v, btn) {
+  btn.closest('.qopts').querySelectorAll('.qopt').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  ans[k] = v;
+  document.getElementById('genbtn').disabled = !(ans.estilo && ans.lavanderia && ans.paris);
+}
+
+// ── List data ───────────────────────────────────────────
+const estiloRopa = {
+  elegante: [
+    ['👗','Vestido midi (nude, blanco o azul cobalto) — el de Santorini',''],
+    ['👗','Vestido largo o cóctel para Dress Your Best','El que guardas para "ocasión especial". Esta es LA ocasión.'],
+    ['👗','Conjunto de lino top + pantalón para días de calor',''],
+    ['🤍','Look blanco elegante para White Party',''],
+    ['👡','Kitten heel o cuña que de verdad aguante caminar','No solo posar. Caminar.'],
+    ['👡','Ballerina plana para Roma y museos','Tus pies te lo agradecerán el día 2. Silenciosamente pero con intensidad.'],
+    ['🧥','Blazer de lino (Roma + París + cenas: 3 trabajos)',''],
+    ['💍','Joyería dorada discreta','Nada que grite "róbame" en el mercado griego.'],
+    ['👜','Bolsa de raffia o cuero mediana',''],
+    ['🕶️','Lentes cat-eye u oversized UV400','Los UV400 son reales, los de $80 pesos no tienen filtro.'],
+    ['👒','Sombrero de ala ancha aplastable','Para Santorini, Capri y cubierta.'],
+  ],
+  casual: [
+    ['👖','Jeans blancos o pantalón de lino beige',''],
+    ['👕','Camisetas de algodón de calidad (3–4)','La diferencia de precio se nota. Este no es el momento para ahorrar en básicos.'],
+    ['🩴','Birkenstock, sandalia con agarre o tenis blancos',''],
+    ['🧢','Gorra o bucket hat','Doble función: sol y estilo.'],
+    ['🕶️','Lentes vintage o aviator UV400',''],
+    ['🎒','Tote de lona o mochila pequeña','Para excursiones en tierra.'],
+    ['🧣','Pañuelo de seda — cuello, bolsa o pelo: 3 looks con uno','Una pieza, infinitos pretextos para comprarla.'],
+    ['👗','Vestido sencillo de tirantes','Para tardes en cubierta o cenas casuales.'],
+    ['🤍','Look blanco casual para White Party',''],
+  ],
+  boho: [
+    ['🧡','Vestido maxi (rayas, étnico o bordado)',''],
+    ['🌸','Falda fluida en coral, turquesa u ocre',''],
+    ['👙','Bikini de crochet o estampado boho','El momento de los crochet es ahorita.'],
+    ['🩴','Sandalias de tiras estilo griego','En Santorini son obligatorias moralmente.'],
+    ['🧶','Cover-up tejido o de gasa',''],
+    ['📿','Accesorios: conchas, turquesa, chaquira','El momento es ahora y el lugar es el Mediterráneo.'],
+    ['💐','Flores en el pelo (Tropical Night: perfecto)','Llevar de más para compartir con las que olvidaron.'],
+    ['🌙','Vestido blanco bordado: White Party + Santorini + cena','Una prenda, tres ocasiones. Eso es eficiencia.'],
+    ['🕶️','Lentes redondos o hexagonales de colores',''],
+    ['👒','Sombrero de paja ala ancha',''],
+    ['🧺','Bolsa de raffia o macramé','Ligera, bonita y cabe en el carry-on.'],
+  ],
+  rock: [
+    ['🖤','Pantalón negro de cuero o vinilo','Noche 80s: perfecto. Doble función.'],
+    ['✨','Top con hombros pronunciados o lentejuelas',''],
+    ['🎸','Camiseta gráfica + blazer oversized',''],
+    ['👢','Bota corta o tenis chunky para Roma',''],
+    ['💄','Labial rojo oscuro o fucsia','El accesorio que hace todo el trabajo sin ocupar espacio.'],
+    ['🕶️','Lentes statement XXL o de color sorpresa',''],
+    ['💍','Anillos apilados, aretes exagerados, pulseras mix',''],
+    ['👜','Bolsa de cadena pequeña dorada o negra',''],
+    ['🤍','Blazer blanco o vestido ajustado para White Party',''],
+  ]
+};
+const riData = {
+  si: ['5–6 piezas', 'Con lavandería es suficiente. La ropa regresa al día siguiente.'],
+  no: ['10–12 piezas', 'Una por día + 2 extra "por si el Mediterráneo despierta algo". Sin preguntar qué exactamente.'],
+  pods: ['6–8 piezas', 'Con Tide Pods en el lavabo rotas perfectamente bien.']
+};
+const bkData = { si: 2, no: 3, pods: 2 };
+const calcData = { si: '4–5 pares', no: '8–10 pares', pods: '5–6 pares' };
+const basData = { si: '3–4', no: '6–7', pods: '4–5' };
+const gymData = { si: '2 outfits', no: '2–3 outfits', pods: '2 outfits' };
+
+function makeList() {
+  const { estilo, lavanderia, paris } = ans;
+
+  const cats = [
+    {
+      t: '🛂 Documentos — Lo primero que empacas', items: [
+        ['🛂', 'Pasaporte vigente (+6 meses después del regreso)', 'Sin pasaporte no hay barco. Sin barco no hay Santorini. Sin Santorini no hay foto. Verificar AHORA, antes de seguir leyendo.'],
+        ['📋', 'SetSail Pass impreso + en la app', 'Royal lo pide en el muelle. Con los dos no hay drama. Sin ninguno: sí hay drama.'],
+        ['💳', 'Tarjeta de crédito — avisar al banco antes de salir', 'Si no avisas la bloquean en Roma a las 10pm sin euros en efectivo. Aprende de las que aprendieron.'],
+        ['💶', 'Euros en efectivo (€200–300 mínimo)', 'Santorini y Mykonos: €7–10 el café, €15 el cóctel. No es error. No están cobrando de más. Así son los precios.'],
+        ['📱', 'Roaming o eSIM internacional activada', 'Antes de salir, no en el aeropuerto cuando ya no hay tiempo y ya estás sudando.'],
+      ]
+    },
+    {
+      t: '👗 Tu ropa — estilo ' + estilo,
+      items: estiloRopa[estilo]
+    },
+    {
+      t: '🩲 Ropa interior y básicos', items: [
+        ['🩲', 'Ropa interior: ' + riData[lavanderia][0], riData[lavanderia][1]],
+        ['👙', 'Bikini o traje de baño: ' + bkData[lavanderia], 'Uno siempre estará mojado. Ley universal del crucero desde que existen los cruceros.'],
+        ['🧦', 'Calcetines: ' + calcData[lavanderia], ''],
+        ['👕', 'Básicos/camisetas: ' + basData[lavanderia], ''],
+        ['🏋️', 'Ropa de gym: ' + gymData[lavanderia], 'El barco tiene gym. Días de mar Lun 25 y Vie 29: perfectos. Dicho esto — Juan del Cerro mandó hacer playeras del grupo que sirven perfecto para esto. No metas camiseta extra de gym, wey. Juan ya resolvió eso por ti.'],
+        ['🥚', 'Playera del grupo de Juan del Cerro — úsala con orgullo (o con pena, lo que sea)', 'Diseño sorpresa. Calidad incierta. Función garantizada: gym, playa y limpiar lo que se derrame del termo.'],
+        ...(lavanderia === 'pods' ? [['🫧', 'Tide Pods (6 en bolsa ziploc)', 'Un pod por lavada. No traigas la caja completa. Eso delata turista principiante de inmediato.']] : []),
+      ]
+    },
+    {
+      t: '🎭 Noches temáticas — 4 outfits en bolsas separadas', items: [
+        ['✨', 'Dress Your Best: vestido largo/cóctel + tacón (Lunes 25)', 'El que guardas para "ocasión especial". Esta es la ocasión. Ya lo dijimos. Ya lo entendiste.'],
+        ['🎭', 'PELUCA para Dress Your Best — todo el grupo', 'Sin excepción. Sin negociación. Sin "es que a mí no me queda". Todos. 📌 Paola: empaca en secreto, sin que Juan Pablo Saucedo lo vea, la peluca de Transformer. No preguntes para qué. Ya lo va a entender en el barco cuando se la pongan entre todos.'],
+        ['👔', '📌 Gaby Artasanchez: esconde en tu maleta una camisa y pantalón de vestir para Mu', 'Sin avisarle. El día de la noche formal se los presentas como hechos consumados. El saco y la corbata se los perdonamos — somos generosos. Pero jeans y t-shirt en el Mediterráneo un lunes de gala: no, wey. No.'],
+        ['🌺', 'Tropical Night: vestido floreado + accesorio de pelo (Martes 26)', 'Entre más colores, mejor. Esta noche no existe el exceso cromático.'],
+        ['💜', 'Noche 80s: disfraz COMPLETO — legging neón + top + accesorios (Miércoles 27)', 'DISFRAZ. No "toque 80s". Practicar el maquillaje en casa una vez antes. 📌 Tatis (Beatriz Rubin): Andrés SÍ se disfraza. No es opcional. Estrategia sugerida: dos drinks antes de enseñarle el disfraz. Tres si ves resistencia. Para cuando procese lo que trae puesto ya estarán en la pista y no hay vuelta atrás.'],
+        ['🤍', 'White Party: vestido BLANCO + accesorios dorados (Jueves 28)', 'No beige. No marfil. BLANCO. La foto grupal para siempre jamás. 📌 Begoña: ese pantalón blanco de Mike Balcázar va en la maleta. Sí, ese. El que ya no le cierra. Méteselo con calzador si hace falta, consíguele una faja, lo que sea — pero ese pantalón viaja. El Mediterráneo merece verlo hacer el intento.'],
+      ]
+    },
+    {
+      t: '☀️ Playa, piscina y Capri', items: [
+        ['🧴', 'Protector solar facial SPF50+', 'SPF30 en Santorini es un chiste de humor negro. Reaplicar cada 2h. Sin oxibenzona (daña arrecifes y puede ser decomisado).'],
+        ['🧴', 'Protector solar corporal SPF50+', '100ml en carry-on para el avión. El resto en maleta. Los hombros en Capri siempre se queman. Siempre.'],
+        ['🕶️', 'Lentes de sol UV400 reales', 'Los de $80 pesos del mercado no tienen filtro UV real. Los ojos también se queman. Invertir.'],
+        ['👒', 'Sombrero de ala ancha aplastable', 'Para Santorini, Capri y cubierta. Los aplastables caben en cualquier maleta. No hay pretexto de espacio.'],
+        ['🏄', 'Sandalia de agua con agarre', 'Boat tour de Capri: rocas mojadas, barco que se mueve. Las flip-flop = resbalón garantizado con público y video.'],
+        ['🩴', 'Cover-up playero ligero', 'Para ir de la alberca al bar sin que sea un evento. O que sí sea un evento. Tú decides el nivel de teatralidad.'],
+        ['🥤', 'Termo Owala / Yeti / Stanley', 'El accesorio más subestimado del viaje. Cóctel a la piscina, al show, al balcón. En tierra: salvavidas. Contenido declarado: "agua". 📌 Juan del Cerro mandó hacer estampa para el termo — ya viene incluida, a 🥚 que queda horrible pero ahí va.'],
+      ]
+    },
+    {
+      t: '🧴 Arreglo personal', items: [
+        ['🪥', 'Cepillo de dientes + pasta', 'El barco no da. El hotel puede que sí pero no cuentes con que sea buena pasta. Llévate los tuyos.'],
+        ['💆', 'Shampoo + acondicionador (tamaño viaje)', 'El del barco es tan genérico que tu pelo lo va a notar. Y luego tú vas a notar que tu pelo lo notó.'],
+        ['🧴', 'Rutina de skincare completa', 'Sol + mar + aire acondicionado 24/7 = piel deshidratada en 48h. Tu rutina viaja contigo.'],
+        ['🌡️', 'Desodorante (llevar uno extra)', '30°C, Noche 80s bailando 2h con disfraz completo. El desodorante es el MVP silencioso e invisible de todo el viaje.'],
+        ['💄', 'Kit de maquillaje esencial', 'Base, labial, máscara, corrector. No tres paletas de sombras. Tres. Repite: tres.'],
+        ['💅', 'Lima de uñas + quitaesmalte en toallitas', 'Una uña se rompe siempre en viaje. Siempre. Desde siempre. Ya lo sabes.'],
+        ['💊', 'Artículos menstruales calculados', 'Cuenta los días antes de empacar. La farmacia en Mykonos vende en griego, abre cuando quiere y puede que no tenga tu marca.'],
+        ['😏', 'La lencería que compró tu esposo y que nunca has usado 🤫', ''],
+        ['🔍', '📌 Marina Orozco, esto es solo para ti: ¿alguien del grupo tiene espacio libre en su maleta?', 'Francisco Vizcaya necesita acomodar unos zapatos talla 18 en algún lado y su maleta ya no da más. Se aceptan voluntarias. O voluntarios. Lo que llegue primero.'],
+      ]
+    },
+    {
+      t: '💊 Medicinas — no improvisar esto en Europa', items: [
+        ['🤢', 'Dramamine (mareo)', 'El boat tour de Capri no es el lago de Chapultepec. El Mar Tirreno tiene olas reales. Tomar 1h antes.'],
+        ['💊', 'Ibuprofeno o paracetamol', 'Para dolor de cabeza de sol, pies destruidos de Roma y el "estado inexplicable" del día después de Tropical Night.'],
+        ['🦠', 'Loperamida (Imodium)', 'Cambio de agua + gyros de Mykonos + mejillones de Éfeso = el intestino presenta sus quejas formalmente. Es un crucero, no un retiro espiritual.'],
+        ['🤧', 'Antihistamínico (Loratadina o Cetirizina)', 'Para alergias, picaduras, reacciones a comida nueva o cuando algo pica y nadie sabe qué fue.'],
+        ['😴', 'Melatonina 1mg', 'Roma está a +8h de México. El jet lag es real. Las primeras 2–3 noches la melatonina ayuda a ajustar.'],
+        ['🧂', 'Electrolitos en sobres (Relyte, Liquid IV)', '30°C + sol + paquete de bebidas abierto = deshidratación elegante. Un sobre cada mañana antes de salir.'],
+        ['🩹', 'Curitas de gel para talones (mínimo 6)', 'Roma + adoquín + sandalias que llevan meses guardadas = ampolla garantizada el día 1. Las de gel se quedan pegadas aunque el pie sude.'],
+        ['🔥', 'Gel de aloe vera', 'Alguien del grupo se quema en Santorini aunque lleven bloqueador. Es estadístico. El aloe salva la noche y el humor.'],
+        ['🦠', 'Azitromicina (pedir con tu médico antes de salir)', 'Casi imposible sin receta en Italia, Grecia y Francia. 3–6 tabletas. Ojalá no la necesites. Si la necesitas en Mykonos a las 3am vas a agradecer haber leído esto.'],
+      ]
+    },
+    {
+      t: '🔌 Tech y logística', items: [
+        ['🔌', 'Hub USB sin elemento de calor', 'Carga varios aparatos a la vez. Sin elemento de calor = permitido en el barco. Las extensiones normales: confiscadas.'],
+        ['🔋', 'Power bank cargado al 100%', 'En Mykonos sin wifi del barco con mapa abierto, GPS activo y fotos al grupo: el power bank es supervivencia pura.'],
+        ['📷', 'Cargador de teléfono + cable extra', 'Los cables se rompen siempre en viaje. Siempre. Llevar uno de respaldo sin discutirlo.'],
+        ['🌍', 'Adaptador universal de viaje', 'Para Roma y París: clavija europea redonda 220V. Uno por camarote mínimo.'],
+      ]
+    },
+    ...(paris === 'si' ? [{
+      t: '🗼 París — Solo 3 cosas extra (el resto ya lo traes)',
+      items: [
+        ['🧥', 'Trench coat beige', 'Sin esto en París no eres visitante: eres turista. Hay diferencia. No negociable bajo ninguna circunstancia.'],
+        ['👡', 'Ballerina o loafer cerrado cómodo', 'París se camina: Campos Elíseos + Montmartre + orillas del Sena = 15,000 pasos. El tacón en París es masoquismo con pretexto estético.'],
+        ['☂️', 'Mini paraguas plegable', 'París en junio llueve sin avisar. El paraguas pesa nada, cabe en el bolso y salva el blowout que te hiciste en el barco.'],
+        ['🎂', 'El vestido especial para el cumpleaños 40 (2 de Junio)', 'El que guardas para "una ocasión muy especial". El cumpleaños 40 en París califica. Sin más deliberación ni conversación.'],
+      ]
+    }] : []),
+  ];
+
+  const container = document.getElementById('list-container');
+  container.innerHTML = '';
+
+  cats.forEach(cat => {
+    const catDiv = document.createElement('div');
+    catDiv.className = 'gen-cat';
+    catDiv.innerHTML = `<div class="gen-cat-title">${cat.t}</div>`;
+    const ul = document.createElement('ul');
+    ul.style.listStyle = 'none';
+    cat.items.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'gitem';
+      li.onclick = function () { this.classList.toggle('done'); updateProg(); };
+      li.innerHTML = `<span class="gemoji">${item[0]}</span><div class="gbox">✓</div><div class="gname">${item[1]}${item[2] ? `<small>${item[2]}</small>` : ''}</div>`;
+      ul.appendChild(li);
+    });
+    catDiv.appendChild(ul);
+    container.appendChild(catDiv);
+  });
+
+  document.getElementById('genwrap').classList.add('on');
+  updateProg();
+  setTimeout(() => document.getElementById('genwrap').scrollIntoView({ behavior: 'smooth' }), 150);
+}
+
+function updateProg() {
+  const all = document.querySelectorAll('.gitem');
+  const done = document.querySelectorAll('.gitem.done');
+  if (!all.length) return;
+  const pct = Math.round((done.length / all.length) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-txt').textContent = `${done.length} / ${all.length}`;
+}
+</script>
+</body>
+</html>

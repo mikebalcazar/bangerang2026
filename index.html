@@ -783,10 +783,21 @@ function MyPlanTab({ couple, rsvps }) {
 function GrupoTab() {
   return (
     <div>
-      <div style={{background:C.orange, borderRadius:"12px", padding:"16px", textAlign:"center", marginBottom:"16px", boxShadow:"0 4px 16px rgba(232,150,26,0.25)"}}>
+      <div style={{background:C.orange, borderRadius:"12px", padding:"16px", textAlign:"center", marginBottom:"14px", boxShadow:"0 4px 16px rgba(232,150,26,0.25)"}}>
         <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"42px", letterSpacing:"4px", color:"transparent", WebkitTextStroke:"2px rgba(255,255,255,0.9)", lineHeight:1}}>40 BANGERANG</div>
-        <div style={{fontSize:"12px", color:"rgba(255,255,255,0.8)", marginTop:"4px"}}>Odyssey of the Seas · 11 cabinas · 22 personas</div>
+        <div style={{fontSize:"12px", color:"rgba(255,255,255,0.8)", marginTop:"4px"}}>Odyssey of the Seas · 9 cabinas · 18 personas</div>
       </div>
+      <a href="./packing-esposas.html" target="_blank" rel="noopener noreferrer" style={{display:"block", textDecoration:"none", marginBottom:"14px"}}>
+        <div style={{background:"linear-gradient(135deg,#E8365D,#F76C2F)", borderRadius:"14px", padding:"14px 16px", display:"flex", alignItems:"center", gap:"12px", boxShadow:"0 4px 18px rgba(232,54,93,0.3)", position:"relative", overflow:"hidden"}}>
+          <span style={{position:"absolute", right:"-6px", top:"50%", transform:"translateY(-50%)", fontSize:"56px", opacity:0.15}}>🧳</span>
+          <span style={{fontSize:"26px", flexShrink:0, position:"relative", zIndex:1}}>👗</span>
+          <div style={{flex:1, position:"relative", zIndex:1}}>
+            <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"14px", color:"#fff", letterSpacing:"0.5px"}}>Packing List · Esposas</div>
+            <div style={{fontSize:"11px", color:"rgba(255,255,255,0.85)"}}>By Kiko Vidal</div>
+          </div>
+          <span style={{fontSize:"18px", color:"#fff", position:"relative", zIndex:1}}>›</span>
+        </div>
+      </a>
       <Card noPad>
         {COUPLES.map((c,i) => (
           <div key={c.id} style={{display:"flex", alignItems:"center", gap:"10px", padding:"11px 14px", borderBottom:i<COUPLES.length-1?`1px solid ${C.borderLight}`:"none", background:c.admin?(C.blueLight):(i%2===0?C.card:C.bg)}}>
@@ -942,6 +953,17 @@ const TYPE_TL = {flight:C.orange,arrival:C.green,hotel:C.blue,stay:"#9060C0",cru
 
 function HomeTab(){
   return <div>
+    <a href="./packing-esposas.html" target="_blank" rel="noopener noreferrer" style={{display:"block", textDecoration:"none", marginBottom:"14px"}}>
+      <div style={{background:"linear-gradient(135deg,#E8365D,#F76C2F)", borderRadius:"14px", padding:"14px 16px", display:"flex", alignItems:"center", gap:"12px", boxShadow:"0 4px 18px rgba(232,54,93,0.3)", position:"relative", overflow:"hidden"}}>
+        <span style={{position:"absolute", right:"-6px", top:"50%", transform:"translateY(-50%)", fontSize:"56px", opacity:0.15}}>🧳</span>
+        <span style={{fontSize:"26px", flexShrink:0, position:"relative", zIndex:1}}>👗</span>
+        <div style={{flex:1, position:"relative", zIndex:1}}>
+          <div style={{fontFamily:"\'Righteous\',sans-serif", fontSize:"14px", color:"#fff", letterSpacing:"0.5px"}}>Packing List · Esposas</div>
+          <div style={{fontSize:"11px", color:"rgba(255,255,255,0.85)"}}>By Kiko Vidal</div>
+        </div>
+        <span style={{fontSize:"18px", color:"#fff", position:"relative", zIndex:1}}>›</span>
+      </div>
+    </a>
     <Sec>RUTA DEL VIAJE</Sec>
     <Card>
       <div style={{display:"flex",alignItems:"center",flexWrap:"wrap",gap:"4px"}}>
@@ -1054,7 +1076,7 @@ function GrupoTabAdmin() {
   return <div>
     <div style={{background:C.orange,borderRadius:"12px",padding:"16px",textAlign:"center",marginBottom:"14px"}}>
       <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"44px",letterSpacing:"4px",color:"transparent",WebkitTextStroke:"2px rgba(255,255,255,0.9)",lineHeight:1}}>40 BANGERANG</div>
-      <div style={{fontSize:"12px",color:"rgba(255,255,255,0.8)",marginTop:"4px"}}>11 cabinas · 22 personas · Odyssey of the Seas</div>
+      <div style={{fontSize:"12px",color:"rgba(255,255,255,0.8)",marginTop:"4px"}}>9 cabinas · 18 personas · Odyssey of the Seas</div>
     </div>
     <Sec>CABINAS</Sec>
     <div style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:"12px",overflow:"hidden",marginBottom:"14px"}}>
