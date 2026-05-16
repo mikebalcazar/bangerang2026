@@ -43,7 +43,8 @@ button,input,textarea{font-family:inherit}
 .btn-orange{transition:opacity 0.15s,transform 0.1s}.btn-orange:active{transform:scale(0.96)}
 html{scroll-behavior:smooth}
 input::placeholder{color:rgba(255,255,255,0.3)}
-input:focus{border-color:rgba(232,150,26,0.5)!important;outline:none}</style>
+input:focus{border-color:rgba(232,150,26,0.5)!important;outline:none}
+.qlinks-row{scrollbar-width:none}.qlinks-row::-webkit-scrollbar{display:none}</style>
 </head>
 <body>
 <div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:12px;color:rgba(255,255,255,0.5)"><div style="font-size:48px;font-weight:900;letter-spacing:-2px;color:rgba(232,150,26,0.7)">40</div><div style="font-size:13px;letter-spacing:3px">BANGERANG · CARGANDO...</div></div></div>
@@ -146,6 +147,11 @@ const ACTIVITIES = [
   { id:"a15", day:7, date:"Sáb 30 Mayo", port:"Nápoles 🇮🇹", icon:"🍽️",
     title:"Cena grupal", time:"9:00 PM", dur:null,
     loc:"Comedor principal", type:"dinner", confirmed:ALL, open:false },
+];
+
+const QUICK_LINKS = [
+  { icon:"👗", label:"Packing · Esposas",  sub:"by Kiko Vidal",  url:"./packing-esposas.html", grad:"linear-gradient(135deg,#E8365D,#F76C2F)" },
+  // Aquí se irán agregando más links del grupo
 ];
 
 const DAYS = [1,2,3,4,5,6,7].map(d => ({
@@ -519,6 +525,29 @@ function CoupleSelector({ onSelect }) {
         <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"10px", letterSpacing:"4px", color:"rgba(255,255,255,0.45)"}}>EUROPA 2026 · ODYSSEY OF THE SEAS</div>
       </div>
 
+      {/* Quick links */}
+      {QUICK_LINKS.length > 0 && (
+        <div style={{width:"100%", maxWidth:"420px", marginBottom:"18px"}}>
+          <div style={{display:"flex", alignItems:"center", gap:"8px", marginBottom:"8px", padding:"0 4px"}}>
+            <div style={{fontSize:"9px", color:"rgba(255,255,255,0.4)", letterSpacing:"2px", textTransform:"uppercase", fontFamily:"'Righteous',sans-serif"}}>🔗 Info del grupo</div>
+            <div style={{flex:1, height:"1px", background:"linear-gradient(to right, rgba(255,255,255,0.12), transparent)"}}/>
+          </div>
+          <div style={{display:"flex", gap:"8px", overflowX:"auto", paddingBottom:"4px", scrollSnapType:"x mandatory", WebkitOverflowScrolling:"touch"}} className="qlinks-row">
+            {QUICK_LINKS.map((link, i) => (
+              <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+                style={{flexShrink:0, scrollSnapAlign:"start", minWidth:"190px", textDecoration:"none", display:"flex", alignItems:"center", gap:"10px", padding:"10px 13px", borderRadius:"12px", background: link.grad || "rgba(255,255,255,0.08)", border: link.grad ? "none" : "1px solid rgba(255,255,255,0.12)", boxShadow: link.grad ? "0 4px 14px rgba(0,0,0,0.25)" : "none", position:"relative", overflow:"hidden"}}>
+                <span style={{fontSize:"22px", flexShrink:0, position:"relative", zIndex:1}}>{link.icon}</span>
+                <div style={{flex:1, position:"relative", zIndex:1, minWidth:0}}>
+                  <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"12px", color:"#fff", letterSpacing:"0.5px", lineHeight:1.2, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis"}}>{link.label}</div>
+                  <div style={{fontSize:"10px", color:"rgba(255,255,255,0.75)", marginTop:"2px", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis"}}>{link.sub}</div>
+                </div>
+                <span style={{fontSize:"16px", color:"rgba(255,255,255,0.9)", position:"relative", zIndex:1}}>›</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div style={{fontSize:"11px", color:"rgba(255,255,255,0.5)", marginBottom:"12px", letterSpacing:"1px", textTransform:"uppercase"}}>¿Quiénes son?</div>
 
       {/* Compact 3-col grid */}
@@ -787,17 +816,7 @@ function GrupoTab() {
         <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"42px", letterSpacing:"4px", color:"transparent", WebkitTextStroke:"2px rgba(255,255,255,0.9)", lineHeight:1}}>40 BANGERANG</div>
         <div style={{fontSize:"12px", color:"rgba(255,255,255,0.8)", marginTop:"4px"}}>Odyssey of the Seas · 9 cabinas · 18 personas</div>
       </div>
-      <a href="./packing-esposas.html" target="_blank" rel="noopener noreferrer" style={{display:"block", textDecoration:"none", marginBottom:"14px"}}>
-        <div style={{background:"linear-gradient(135deg,#E8365D,#F76C2F)", borderRadius:"14px", padding:"14px 16px", display:"flex", alignItems:"center", gap:"12px", boxShadow:"0 4px 18px rgba(232,54,93,0.3)", position:"relative", overflow:"hidden"}}>
-          <span style={{position:"absolute", right:"-6px", top:"50%", transform:"translateY(-50%)", fontSize:"56px", opacity:0.15}}>🧳</span>
-          <span style={{fontSize:"26px", flexShrink:0, position:"relative", zIndex:1}}>👗</span>
-          <div style={{flex:1, position:"relative", zIndex:1}}>
-            <div style={{fontFamily:"'Righteous',sans-serif", fontSize:"14px", color:"#fff", letterSpacing:"0.5px"}}>Packing List · Esposas</div>
-            <div style={{fontSize:"11px", color:"rgba(255,255,255,0.85)"}}>By Kiko Vidal</div>
-          </div>
-          <span style={{fontSize:"18px", color:"#fff", position:"relative", zIndex:1}}>›</span>
-        </div>
-      </a>
+
       <Card noPad>
         {COUPLES.map((c,i) => (
           <div key={c.id} style={{display:"flex", alignItems:"center", gap:"10px", padding:"11px 14px", borderBottom:i<COUPLES.length-1?`1px solid ${C.borderLight}`:"none", background:c.admin?(C.blueLight):(i%2===0?C.card:C.bg)}}>
@@ -953,17 +972,6 @@ const TYPE_TL = {flight:C.orange,arrival:C.green,hotel:C.blue,stay:"#9060C0",cru
 
 function HomeTab(){
   return <div>
-    <a href="./packing-esposas.html" target="_blank" rel="noopener noreferrer" style={{display:"block", textDecoration:"none", marginBottom:"14px"}}>
-      <div style={{background:"linear-gradient(135deg,#E8365D,#F76C2F)", borderRadius:"14px", padding:"14px 16px", display:"flex", alignItems:"center", gap:"12px", boxShadow:"0 4px 18px rgba(232,54,93,0.3)", position:"relative", overflow:"hidden"}}>
-        <span style={{position:"absolute", right:"-6px", top:"50%", transform:"translateY(-50%)", fontSize:"56px", opacity:0.15}}>🧳</span>
-        <span style={{fontSize:"26px", flexShrink:0, position:"relative", zIndex:1}}>👗</span>
-        <div style={{flex:1, position:"relative", zIndex:1}}>
-          <div style={{fontFamily:"\'Righteous\',sans-serif", fontSize:"14px", color:"#fff", letterSpacing:"0.5px"}}>Packing List · Esposas</div>
-          <div style={{fontSize:"11px", color:"rgba(255,255,255,0.85)"}}>By Kiko Vidal</div>
-        </div>
-        <span style={{fontSize:"18px", color:"#fff", position:"relative", zIndex:1}}>›</span>
-      </div>
-    </a>
     <Sec>RUTA DEL VIAJE</Sec>
     <Card>
       <div style={{display:"flex",alignItems:"center",flexWrap:"wrap",gap:"4px"}}>
