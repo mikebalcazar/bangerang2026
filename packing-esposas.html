@@ -189,9 +189,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#1A1A
 .wname small{display:block;font-size:11.5px;color:rgba(255,255,255,.52);margin-top:2px;line-height:1.5;}
 
 footer{text-align:center;padding:24px 20px;font-size:12px;color:var(--muted);font-style:italic;line-height:1.6;}
+
+.back-btn{position:fixed;top:14px;left:14px;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.5);border-radius:100px;padding:8px 14px 8px 10px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:#0E1F3D;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,0.18);transition:transform .15s,background .15s;cursor:pointer;}
+.back-btn:hover{transform:translateY(-1px);background:#fff;}
+.back-btn:active{transform:scale(0.96);}
+.back-btn .back-arrow{font-size:16px;line-height:1;display:inline-block;}
 </style>
 </head>
 <body>
+
+<a href="./" class="back-btn">
+  <span class="back-arrow">‹</span>
+  <span>40 Bangerang</span>
+</a>
 
 <!-- HERO -->
 <div class="hero">
