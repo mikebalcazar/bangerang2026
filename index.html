@@ -48,6 +48,17 @@ input:focus{border-color:rgba(232,150,26,0.5)!important;outline:none}
 </head>
 <body>
 <div id="root"><div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:12px;color:rgba(255,255,255,0.5)"><div style="font-size:48px;font-weight:900;letter-spacing:-2px;color:rgba(232,150,26,0.7)">40</div><div style="font-size:13px;letter-spacing:3px">BANGERANG · CARGANDO...</div></div></div>
+<script>
+// ONE-TIME CLEANUP: Remove stale Mike & Bego RSVP from a14 (Swingers Cocktail Party)
+// Safe to run multiple times (idempotent). Will be removed after Mike confirms.
+(function(){
+  try {
+    fetch("https://bangerang2026-96fac-default-rtdb.firebaseio.com/rsvps/a14/c2.json", {method:"DELETE"})
+      .then(() => console.log("✅ Stale RSVP a14/c2 cleared"))
+      .catch(() => {});
+  } catch(e) {}
+})();
+</script>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
