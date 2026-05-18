@@ -168,6 +168,131 @@ function openPDF(url, name) {
 }
 
 // ── CHAT ──────────────────────────────────────────────────────────────────────
+// ── ACTIVITY WALL ─────────────────────────────────────────────────────────────
+function ActivityWall() {
+  const [rsvps, setRsvps] = useState({}); // {actId: {coupleKey: {voy, ts}}}
+  const [now, setNow] = useState(Date.now());
+  const esRef = useRef(null);
+
+  useEffect(() => {
+    const tick = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(tick);
+  }, []);
+
+  useEffect(() => {
+    const connect = () => {
+      try {
+        const es = new EventSource(`${FB}/rsvps.json`);
+        esRef.current = es;
+        const applyPut = (path, data) => {
+          setRsvps(prev => {
+            if (path === "/") return data || {};
+            const parts = path.split("/").filter(Boolean);
+            const next = { ...prev };
+            if (parts.length === 1) {
+              const [actId] = parts;
+              if (data === null) delete next[actId];
+              else next[actId] = data;
+            } else if (parts.length === 2) {
+              const [actId, coupleKey] = parts;
+              const actMap = { ...(next[actId] || {}) };
+              if (data === null) delete actMap[coupleKey];
+              else actMap[coupleKey] = data;
+              next[actId] = actMap;
+            } else if (parts.length === 3) {
+              const [actId, coupleKey, field] = parts;
+              const actMap = { ...(next[actId] || {}) };
+              const entry = { ...(actMap[coupleKey] || {}) };
+              if (data === null) delete entry[field];
+              else entry[field] = data;
+              actMap[coupleKey] = entry;
+              next[actId] = actMap;
+            }
+            return next;
+          });
+        };
+        es.addEventListener("put", (e) => { try { const { path, data } = JSON.parse(e.data); applyPut(path, data); } catch(e2) {} });
+        es.addEventListener("patch", (e) => {
+          try {
+            const { path, data } = JSON.parse(e.data);
+            if (!data) return;
+            const basePath = path === "/" ? "" : path;
+            Object.entries(data).forEach(([k, v]) => applyPut(`${basePath}/${k}`, v));
+          } catch(e2) {}
+        });
+        es.onerror = () => { es.close(); setTimeout(connect, 5000); };
+      } catch(e) {}
+    };
+    connect();
+    return () => { if (esRef.current) esRef.current.close(); };
+  }, []);
+
+  // Flatten to events list
+  const events = [];
+  for (const actId in rsvps) {
+    const actMap = rsvps[actId] || {};
+    for (const coupleKey in actMap) {
+      const r = actMap[coupleKey];
+      if (r && r.voy) {
+        const coupleId = parseInt(String(coupleKey).replace(/^c/, ""), 10);
+        const ts = r.ts || 0;
+        events.push({ actId, coupleId, ts });
+      }
+    }
+  }
+  events.sort((a, b) => b.ts - a.ts);
+
+  const relTime = (ts) => {
+    if (!ts) return "";
+    const diff = Math.max(0, now - ts);
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return "ahora";
+    if (m < 60) return `hace ${m} min`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `hace ${h} h`;
+    const d = Math.floor(h / 24);
+    return `hace ${d} d`;
+  };
+
+  return (
+    <div style={{background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:"16px", overflow:"hidden", width:"100%", maxWidth:"420px"}}>
+      <div style={{padding:"10px 14px 8px", borderBottom:"1px solid rgba(255,255,255,0.08)", display:"flex", alignItems:"center", gap:"8px"}}>
+        <span style={{fontSize:"14px"}}>📣</span>
+        <span style={{fontFamily:"'Righteous',sans-serif", fontSize:"12px", letterSpacing:"2px", color:"rgba(255,255,255,0.7)"}}>MURO DE ACTIVIDAD</span>
+        <span style={{marginLeft:"auto", fontSize:"9px", color:"rgba(255,255,255,0.3)"}}>{events.length} confirmaciones</span>
+      </div>
+      <div style={{maxHeight:"260px", overflowY:"auto", padding:"10px 12px", display:"flex", flexDirection:"column", gap:"7px"}}>
+        {events.length === 0 && (
+          <div style={{textAlign:"center", padding:"30px 0", color:"rgba(255,255,255,0.3)", fontSize:"12px", lineHeight:1.6}}>
+            Aún no hay confirmaciones.<br/>
+            <span style={{fontSize:"10px", color:"rgba(255,255,255,0.2)"}}>Cuando alguien diga "Voy" a una actividad, aparecerá aquí.</span>
+          </div>
+        )}
+        {events.slice(0, 40).map((e) => {
+          const couple = COUPLES.find(c => c.id === e.coupleId);
+          const act = ACTIVITIES.find(a => a.id === e.actId);
+          if (!couple || !act) return null;
+          return (
+            <div key={`${e.actId}-${e.coupleId}-${e.ts}`} style={{display:"flex", alignItems:"flex-start", gap:"10px", padding:"9px 11px", background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.06)", borderLeft:`2px solid ${C.orange}`, borderRadius:"10px"}}>
+              <span style={{fontSize:"18px", flexShrink:0, marginTop:"1px"}}>{act.icon}</span>
+              <div style={{flex:1, minWidth:0}}>
+                <div style={{fontSize:"12px", color:"rgba(255,255,255,0.92)", lineHeight:1.4}}>
+                  <span style={{fontFamily:"'Righteous',sans-serif", color:C.orange}}>{couple.nick}</span>
+                  <span style={{color:"rgba(255,255,255,0.55)"}}> confirmó: </span>
+                  <span style={{color:"#fff", fontWeight:600}}>{act.title}</span>
+                </div>
+                <div style={{fontSize:"10px", color:"rgba(255,255,255,0.4)", marginTop:"2px"}}>
+                  {act.date} · {act.time}{e.ts ? ` · ${relTime(e.ts)}` : ""}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function GroupChat({ myNick }) {
   const [msgs, setMsgs] = useState([]);
   const [text, setText] = useState("");
@@ -575,8 +700,8 @@ function CoupleSelector({ onSelect }) {
         )}
       </div>
 
-      {/* Group chat */}
-      <GroupChat myNick={selCouple?.nick || null} />
+      {/* Activity wall */}
+      <ActivityWall />
       <div style={{marginTop:"14px", fontSize:"9px", color:"rgba(255,255,255,0.2)"}}>🔒 Solo para el grupo 40 Bangerang</div>
     </div>
   );
@@ -731,7 +856,6 @@ function GuestApp({ couple, rsvps, onRSVP, onSwitch }) {
       <footer style={{background:`linear-gradient(90deg,${C.orange},${C.blue})`, padding:"10px 10px 90px", textAlign:"center", marginTop:"12px"}}>
         <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"14px", letterSpacing:"4px", color:"transparent", WebkitTextStroke:"1.5px rgba(255,255,255,0.8)"}}>40 BANGERANG · EUROPA 2026</div>
       </footer>
-      <FloatingChat myNick={couple.nick} />
     </div>
   );
 }
@@ -870,7 +994,6 @@ function AdminApp({ couple, rsvps, onRSVP, onSwitch }) {
       <footer style={{background:`linear-gradient(90deg,${C.orange},${C.blue})`, padding:"12px 12px 90px", textAlign:"center", marginTop:"12px"}}>
         <div style={{fontFamily:"'Bebas Neue',sans-serif", fontSize:"16px", letterSpacing:"4px", color:"transparent", WebkitTextStroke:"1.5px rgba(255,255,255,0.85)"}}>40 BANGERANG · EUROPA 2026</div>
       </footer>
-      <FloatingChat myNick={couple.nick} />
     </div>
   );
 }
