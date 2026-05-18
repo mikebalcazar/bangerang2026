@@ -138,12 +138,26 @@ const ACTIVITIES = [
     title:"Capri Boat Tour — Small Group", time:"8:30 AM", dur:null,
     loc:"Puerto de Nápoles · Pick up en muelle", type:"excursion", confirmed:ALL, open:false,
     note:"2 barcos · 9 adultos c/u · Natación, Snorkel, Gruta Azul · Pagado por Vizcaya y Luis" },
-  { id:"a14", day:7, date:"Sáb 30 Mayo", port:"Nápoles 🇮🇹", icon:"🎸",
-    title:"Adivina el nombre de la canción: Rock clásico", time:"7:15 PM", dur:"30 min",
-    loc:"Sala de música · Cubierta 3, Midship", type:"fun", confirmed:[], open:true },
+  { id:"a14", day:7, date:"Sáb 30 Mayo", port:"Nápoles 🇮🇹", icon:"🍍",
+    title:"Swingers Cocktail Party 🍍", time:"7:15 PM", dur:"30 min",
+    loc:"Sala de música · Cubierta 3, Midship", type:"fun", confirmed:[3,5], open:true,
+    note:"🍍 ¡Camisa de piña obligatoria! · 'All for one, and one for all' · Adivina el nombre de la canción · Sube tu RSVP en la app de Royal Caribbean también" },
   { id:"a15", day:7, date:"Sáb 30 Mayo", port:"Nápoles 🇮🇹", icon:"🍽️",
     title:"Cena grupal", time:"9:00 PM", dur:null,
     loc:"Comedor principal", type:"dinner", confirmed:ALL, open:false },
+];
+
+// Announcements pinned to the top of the activity wall (newest first)
+const ANNOUNCEMENTS = [
+  {
+    id: "ann_swingers",
+    icon: "🍍",
+    title: "Nueva actividad agregada",
+    activityTitle: "Swingers Cocktail Party",
+    sub: "Día 7 · Sáb 30 Mayo · 7:15 PM · Sala de música C3",
+    note: "¡Camisa de piña obligatoria! · Adivina el nombre de la canción",
+    actId: "a14",
+  },
 ];
 
 const QUICK_LINKS = [
@@ -261,8 +275,23 @@ function ActivityWall() {
         <span style={{fontFamily:"'Righteous',sans-serif", fontSize:"12px", letterSpacing:"2px", color:"rgba(255,255,255,0.7)"}}>MURO DE ACTIVIDAD</span>
         <span style={{marginLeft:"auto", fontSize:"9px", color:"rgba(255,255,255,0.3)"}}>{events.length} confirmaciones</span>
       </div>
-      <div style={{maxHeight:"260px", overflowY:"auto", padding:"10px 12px", display:"flex", flexDirection:"column", gap:"7px"}}>
-        {events.length === 0 && (
+      <div style={{maxHeight:"300px", overflowY:"auto", padding:"10px 12px", display:"flex", flexDirection:"column", gap:"7px"}}>
+        {/* Announcements (pinned at top) */}
+        {ANNOUNCEMENTS.map((a) => (
+          <div key={a.id} style={{position:"relative", padding:"11px 13px", background:"linear-gradient(135deg, rgba(232,150,26,0.22), rgba(43,154,200,0.22))", border:"1px solid rgba(232,150,26,0.45)", borderRadius:"12px", overflow:"hidden"}}>
+            <div style={{position:"absolute", top:"6px", right:"8px", fontSize:"8px", fontFamily:"'Righteous',sans-serif", letterSpacing:"1.5px", color:"#FFD27A", background:"rgba(0,0,0,0.25)", padding:"2px 6px", borderRadius:"10px"}}>NUEVO</div>
+            <div style={{display:"flex", alignItems:"flex-start", gap:"10px"}}>
+              <span style={{fontSize:"22px", flexShrink:0, marginTop:"1px"}}>{a.icon}</span>
+              <div style={{flex:1, minWidth:0, paddingRight:"40px"}}>
+                <div style={{fontSize:"10px", fontFamily:"'Righteous',sans-serif", letterSpacing:"1.5px", color:"#FFD27A", textTransform:"uppercase", marginBottom:"2px"}}>{a.title}</div>
+                <div style={{fontSize:"14px", fontFamily:"'Righteous',sans-serif", color:"#fff", lineHeight:1.3}}>{a.activityTitle}</div>
+                <div style={{fontSize:"11px", color:"rgba(255,255,255,0.7)", marginTop:"2px"}}>{a.sub}</div>
+                {a.note && <div style={{fontSize:"11px", color:"rgba(255,255,255,0.85)", marginTop:"5px", fontStyle:"italic"}}>{a.note}</div>}
+              </div>
+            </div>
+          </div>
+        ))}
+        {events.length === 0 && ANNOUNCEMENTS.length === 0 && (
           <div style={{textAlign:"center", padding:"30px 0", color:"rgba(255,255,255,0.3)", fontSize:"12px", lineHeight:1.6}}>
             Aún no hay confirmaciones.<br/>
             <span style={{fontSize:"10px", color:"rgba(255,255,255,0.2)"}}>Cuando alguien diga "Voy" a una actividad, aparecerá aquí.</span>
